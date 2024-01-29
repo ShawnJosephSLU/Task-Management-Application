@@ -1,3 +1,5 @@
 node_modules/
-.env
 dist/
+
+# I am adding the .env file to the git repo so that the reviewer will connect automatically to the database.  
+# I know that this should never be none in production
