@@ -7,6 +7,11 @@ const dbConnect = require('../config/dbConnect');
 //connect to database
 dbConnect();
 
+// handle cors errors
+const CLIENT_SIDE_URL = 'http://localhost:5173';
+const cors = require('cors');
+app.use(cors({ origin: CLIENT_SIDE_URL })); // 
+
 // enable body parsing
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: true}));
