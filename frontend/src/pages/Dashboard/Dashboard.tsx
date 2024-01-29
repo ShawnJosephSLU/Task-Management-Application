@@ -45,14 +45,14 @@ const Dashboard = () => {
                     <Table>
                         <TableHead component={Paper}>
                             <TableRow>
-                                <TableCell style={{ width: '40px' }}><h3>ID</h3></TableCell>
-                                <TableCell style={{ width: '100px' }}><h3>Title</h3></TableCell>
-                                <TableCell style={{ width: '400px' }}><h3>Description</h3></TableCell>
-                                <TableCell style={{ width: '100px' }}><h3>Due Date</h3></TableCell>
-                                <TableCell style={{ width: '200px' }}><h3>Assignee</h3></TableCell>
-                                <TableCell style={{ width: '100px' }}><h3>Priority Level</h3></TableCell>
-                                <TableCell style={{ width: '400px' }}><h3>Notes</h3></TableCell>
-                                <TableCell style={{ width: '100px' }}><h3>Status</h3></TableCell>
+                                <TableCell style={{ width: '40px' }}><h4>ID</h4></TableCell>
+                                <TableCell style={{ width: '100px' }}><h4>Title</h4></TableCell>
+                                <TableCell style={{ width: '400px' }}><h4>Description</h4></TableCell>
+                                <TableCell style={{ width: '100px' }}><h4>Due Date</h4></TableCell>
+                                <TableCell style={{ width: '200px' }}><h4>Assignee</h4></TableCell>
+                                <TableCell style={{ width: '160px' }}><h4>Priority Level</h4></TableCell>
+                                <TableCell style={{ width: '400px' }}><h4>Notes</h4></TableCell>
+                                <TableCell style={{ width: '100px' }}><h4>Status</h4></TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
