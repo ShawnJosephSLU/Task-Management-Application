@@ -6,6 +6,7 @@ const taskController = require('../controllers/task.controller');
 
 
 router.post('/', taskController.createNewTask); // asynchronously creates a new task
+router.get('/', taskController.getAllTasks); // asynchronously fetches all tasks from the database
 
 
 module.exports = router;

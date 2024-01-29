@@ -27,4 +27,13 @@ const createNewTask = async (req, res) => {
     }
 };
 
-module.exports = { createNewTask };
+const getAllTasks = async (req, res, next) => {
+    try {
+        const task = await Task.find(); 
+        res.status(200).json(task);
+    } catch (error) {
+        // ... Error handling ...
+    }
+}
+
+module.exports = { createNewTask, getAllTasks };
