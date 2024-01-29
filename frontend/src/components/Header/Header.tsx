@@ -1,22 +1,32 @@
 // Header
 
-import { Link } from "react-router-dom";
+import { AppBar, Button, Toolbar, Typography } from "@mui/material";
+import { NavLink } from "react-router-dom";
 
 const Header = () => {
     return (
+        <AppBar>
+            <Toolbar style={{ justifyContent: 'space-between' }}>
 
-        <>
-            <header>
-                <nav>
-                    <Link to='/dashboard'>Home</Link>
-                    <Link to='/mytasks'> My Created Tasks</Link>
-                    <Link to='/create-task'>Create New Task</Link>
-                    <Link to='/signin'>Sign Out</Link>
-                </nav>
-                
-            </header>
-        </>
+                {/* TODO LIST Header on the Left */}
+                <Typography variant="h5" fontFamily="fantasy" noWrap>
+                    TODO LIST
+                </Typography>
+
+                {/* Centered Navigation Links */}
+                <div style={{ display: 'flex', justifyContent: 'center', flexGrow: 1 }}>
+                    <NavLink to="/dashboard"><Button style={{ color: '#ffffff' }}>Home</Button></NavLink>
+                    <NavLink to='/mytasks'><Button style={{ color: '#ffffff' }}>My Created Tasks</Button></NavLink>
+                    <NavLink to='/create-task'><Button style={{ color: '#ffffff' }}>Create New Task</Button></NavLink>
+                </div>
+
+                {/* "Sign Out" Button on the Right */}
+                <NavLink to='/signin'><Button style={{ color: '#ffffff' }}>Sign Out</Button></NavLink>
+
+            </Toolbar>
+        </AppBar>
     );
 }
 
 export default Header;
+

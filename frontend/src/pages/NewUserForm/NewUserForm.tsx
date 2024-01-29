@@ -1,5 +1,9 @@
+import { Button } from "@mui/material";
+import { NavLink } from "react-router-dom";
+
 // NewUserForm
 const NewUserForm = () => {
+   
     return (
         <>
             <div> 
@@ -12,9 +16,9 @@ const NewUserForm = () => {
                     <input placeholder="Email" type="Email" />
                     <input placeholder="Password" type="Password" />
                     <input placeholder="Retype Password" type="Password" />
-                    <button type="submit">Sign In</button>
+                    <Button><NavLink to={"/signin"}>Sign Up</NavLink></Button>
                     <p>Already have an account ?</p>
-                    <a href="/signin"> Sign In</a>
+                    <NavLink to={"/signin"}>Sign In</NavLink>
                 </form>
             </div>
         </>

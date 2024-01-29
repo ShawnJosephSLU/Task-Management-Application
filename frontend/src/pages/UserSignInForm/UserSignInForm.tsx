@@ -1,5 +1,9 @@
 // UserSignInForm
 
+//TODO: Handle Authentication when signing in
+import { Button } from "@mui/material";
+import { NavLink } from "react-router-dom";
+
 
 const UserSignInForm = () => {
     return (
@@ -10,9 +14,9 @@ const UserSignInForm = () => {
                 <form>
                     <input placeholder="username or email" type="email" />
                     <input placeholder="password" type="password" />
-                    <button type="submit">Sign In</button>
+                    <NavLink to="/dashboard"><Button>Sign In</Button></NavLink>
                     <p>Don't have an account ?</p>
-                    <a href="/signup"> Create New User</a>
+                    <NavLink to="/signup"><Button>Sign Up</Button></NavLink>
                     
                 </form>
             </div>
