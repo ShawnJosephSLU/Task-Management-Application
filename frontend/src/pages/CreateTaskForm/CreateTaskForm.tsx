@@ -1,8 +1,10 @@
 // TaskForm
-
 import Header from "../../components/Header/Header";
 
 const CreateTaskForm = () => {
+    // stores the tasks 
+ 
+
     return (
         <>
             <Header/>
@@ -18,19 +20,12 @@ const CreateTaskForm = () => {
                     </div>
                     <div>
                         <p>Due Date</p>
-                        <div>
-                            <p>Day</p>
-                            <input  type="date" />
-                        </div>
-                        <div>
-                            <p>Time</p>
-                            <input  type="time" />
-                        </div>
+                        <input  type="date" />
                     </div>
                     
                     <button type="submit">Cancel</button>
                     <button type="submit">Create</button>
-                </form>
+            </form>
         </>
     );
 }
