@@ -12,22 +12,45 @@ interface User {
     displayName: string;
 }
 
-
-
 const CreateTaskForm = () => {
     // TODO:  The date should not be a date before the current date
 
     const [users, setUsers] = useState<User[]>([]);
+    
     const [priorityLevels, setPriorityLevels] = React.useState('Medium');
 
+    const currentDate = new Date();
+    const [newTask, setNewTask] = useState({
+        title: "",
+        description: "",
+        dueDate: currentDate.toLocaleDateString('en-US'), // current date by default
+        priority: "Medium",
+        assignee: "", // TODO: by default the current user should assign the task to himself
+        note: ""
+    });
 
-    const handlePriorityChange = (event: SelectChangeEvent) => { //  handles the priority changes 
-        setPriorityLevels(event.target.value as string);
+
+    const handlePriorityChange = (event: SelectChangeEvent) => {
+        const newPriority = event.target.value;
+        setPriorityLevels(newPriority);
+        setNewTask({ ...newTask, priority: newPriority });
     };
 
-    const handleCreateTask = () => {// handles create button press
+
+    const handleAssigneeChange = (_event: any, value: User | null) => {
+        setNewTask({ ...newTask, assignee: value ? value.id : "" });
+    };
+    
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setNewTask({ ...newTask, [event.target.name]: event.target.value });
+    };
+
+
+    const handleSubmit = () => {// handles create button press
         // make a post request to the server 
         console.log('Create Button Clicked');
+        console.log(newTask);
     };
 
 
@@ -50,18 +73,36 @@ const CreateTaskForm = () => {
                 <Grid item xs={12} md={6}>
                     <Card sx={{ p: 3 }}>
                         <Typography variant="h5" style={{ fontFamily: "monospace", textAlign: 'center' }}>Create A New Task</Typography>
-                        <TextField fullWidth placeholder="Title" margin="normal" />
+                        <TextField
+                            fullWidth
+                            placeholder="Title"
+                            name="title"
+                            value={newTask.title}
+                            onChange={handleChange}
+                            margin="normal"
+                        />
+
                         <TextField
                             fullWidth
                             id="outlined-multiline-static"
                             label="Description"
+                            name="description"
                             multiline
                             rows={4}
                             margin="normal"
+                            onChange={handleChange}
                         />
-                        <TextField fullWidth type="date" helperText="Due Date" margin="normal" />
+                        <TextField
+                            fullWidth
+                            type="date"
+                            helperText="Due Date"
+                            name="dueDate"
+                            onChange={handleChange}
+                            margin="normal"
+                        />
                         <Autocomplete
                             disablePortal={false}
+                            onChange={handleAssigneeChange}
                             id="combo-box-demo"
                             options={assignees}
                             sx={{ width: '100%', marginTop: 2 }}
@@ -84,9 +125,11 @@ const CreateTaskForm = () => {
                             fullWidth
                             id="outlined-multiline-static"
                             label="Notes"
+                            name="note"
                             multiline
                             rows={4}
                             margin="normal"
+                            onChange={handleChange}
                         />
                         <Grid container spacing={2} justifyContent="center" sx={{ marginTop: 2 }}>
                             <Grid item>
@@ -95,7 +138,7 @@ const CreateTaskForm = () => {
                                 </NavLink>
                             </Grid>
                             <Grid item>
-                                <Button variant="contained" onClick={handleCreateTask}>Create</Button>
+                                <Button variant="contained" onClick={handleSubmit}>Create</Button>
                             </Grid>
                         </Grid>
                     </Card>
