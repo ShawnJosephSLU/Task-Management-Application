@@ -3,6 +3,7 @@ import { Autocomplete, Button, Card, Grid, MenuItem, Select, SelectChangeEvent, 
 import Header from "../../components/Header/Header";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 
 const API_URL_USER: string = "http://localhost:3333/user/displayNames";
 
@@ -22,11 +23,6 @@ const CreateTaskForm = () => {
 
     const handlePriorityChange = (event: SelectChangeEvent) => { //  handles the priority changes 
         setPriorityLevels(event.target.value as string);
-    };
-
-    const handleFormCancel = () => {// handles cancel button press
-        // navigate the the dashboard
-        console.log('Cancel Button Clicked');
     };
 
     const handleCreateTask = () => {// handles create button press
@@ -94,7 +90,9 @@ const CreateTaskForm = () => {
                         />
                         <Grid container spacing={2} justifyContent="center" sx={{ marginTop: 2 }}>
                             <Grid item>
-                                <Button variant="outlined" onClick={handleFormCancel}>Cancel</Button>
+                                <NavLink to="/dashboard">
+                                    <Button variant="outlined">Cancel</Button>
+                                </NavLink>
                             </Grid>
                             <Grid item>
                                 <Button variant="contained" onClick={handleCreateTask}>Create</Button>
