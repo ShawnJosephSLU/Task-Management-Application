@@ -3,25 +3,22 @@
 import Header from "../../components/Header/Header"
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Divider, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Toolbar, Typography} from "@mui/material";
-import SearchIcon from '@mui/icons-material/Search';
+import { Divider, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography} from "@mui/material";
 
-// In your component, use it like any other React component
-<SearchIcon />
 
 
 const API_URL: string = "http://localhost:3333/task"; // TODO:  Store this in .env file
 
 interface Task {
-    id: string; // Assuming the id is a string. Adjust the type accordingly.
+    id: string;
     title: string;
     description: string;
-    dueDate: string; // Adjust the type if your date is a Date object
+    dueDate: string;
     assignee: {
         displayName: string;
     };
     priorityLevel: string;
-    notes: string[]; // Assuming notes is an array of strings
+    notes: string[]; 
     status: string;
 }
 
@@ -35,7 +32,7 @@ const Dashboard = () => {
             .catch(error => {
                 console.error('There was an error!', error);
             });
-    }, []); // Empty dependency array to run only on component mount
+    }, []); 
 
     const homeContentStyle = {
         marginTop: '90px',
