@@ -1,11 +1,9 @@
 // Dashboard Component
 
-import Header from "../../components/Header/Header"
+import Header from "../../components/Header/Header";
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Divider, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography } from "@mui/material";
-
-
 
 const API_URL_TASK: string = "http://localhost:3333/task"; // TODO:  Store this in .env file
 
@@ -21,7 +19,6 @@ interface Task {
     notes: string[];
     status: string;
 }
-
 
 const Dashboard = () => {
     const [tasks, setTasks] = useState<Task[]>([]);
@@ -52,7 +49,6 @@ const Dashboard = () => {
             <Header />
             <div style={homeContentStyle}>
                 <Toolbar style={topBarStyle} >
-
                     <Typography variant="h5" style={{ fontFamily: "monospace" }}>All Available Tasks</Typography>
                 </Toolbar>
 
@@ -62,7 +58,7 @@ const Dashboard = () => {
                         <TableHead>
                             <TableRow>
                                 <TableCell style={{ width: '40px' }}>ID</TableCell>
-                                <TableCell style={{ width: '100px' }}>Title</TableCell>
+                                <TableCell style={{ width: '200px' }}>Title</TableCell>
                                 <TableCell style={{ width: '400px' }}>Description</TableCell>
                                 <TableCell style={{ width: '100px' }}>Due Date</TableCell>
                                 <TableCell style={{ width: '200px' }}>Assignee</TableCell>
@@ -72,20 +68,18 @@ const Dashboard = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {
-                                tasks.map((task, index) => (
-                                    <TableRow key={index}>
-                                        <TableCell>{index + 1}</TableCell>
-                                        <TableCell>{task.title}</TableCell>
-                                        <TableCell>{task.description}</TableCell>
-                                        <TableCell>{task.dueDate.slice(0, 10)}</TableCell>
-                                        <TableCell>{task.assignee.displayName}</TableCell>
-                                        <TableCell>{task.priorityLevel}</TableCell>
-                                        <TableCell>{task.notes}</TableCell>
-                                        <TableCell>{task.status}</TableCell>
-                                    </TableRow>
-                                ))
-                            }
+                            {tasks.map((task, index) => (
+                                <TableRow key={index}>
+                                    <TableCell>{index + 1}</TableCell>
+                                    <TableCell>{task.title}</TableCell>
+                                    <TableCell>{task.description}</TableCell>
+                                    <TableCell>{task.dueDate.slice(0, 10)}</TableCell>
+                                    <TableCell>{task.assignee?.displayName ?? 'Unassigned'}</TableCell>
+                                    <TableCell>{task.priorityLevel}</TableCell>
+                                    <TableCell>{(task.notes || []).join(', ')}</TableCell>
+                                    <TableCell>{task.status}</TableCell>
+                                </TableRow>
+                            ))}
                         </TableBody>
                     </Table>
                 </TableContainer>
@@ -94,4 +88,4 @@ const Dashboard = () => {
     );
 }
 
-export default Dashboard
+export default Dashboard;

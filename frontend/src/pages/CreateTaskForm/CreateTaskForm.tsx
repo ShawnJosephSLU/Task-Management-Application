@@ -1,11 +1,10 @@
-// TaskForm
 import { Autocomplete, Button, Card, Grid, MenuItem, Select, SelectChangeEvent, TextField, Typography } from "@mui/material";
 import Header from "../../components/Header/Header";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 
-const API_URL_USER: string = "http://localhost:3333/user/displayNames"; 
+const API_URL_USER: string = "http://localhost:3333/user/displayNames";
 const API_URL_TASK: string = "http://localhost:3333/task";
 
 interface User {
@@ -14,22 +13,28 @@ interface User {
 }
 
 const CreateTaskForm = () => {
-    // TODO:  The date should not be a date before the current date
-
     const [users, setUsers] = useState<User[]>([]);
-    
-    const [priorityLevels, setPriorityLevels] = React.useState('Medium');
-
+    const [priorityLevels, setPriorityLevels] = useState('Medium');
     const currentDate = new Date();
+
     const [newTask, setNewTask] = useState({
         title: "",
         description: "",
-        dueDate: currentDate.toLocaleDateString('en-US'), // current date by default
+        dueDate: currentDate.toLocaleDateString('en-US'),
         priorityLevel: "Medium",
-        assignee: "Shawn Joseph", // TODO: by default the current user should assign the task to himself
+        assignee: "",
         notes: "",
     });
 
+    useEffect(() => {
+        axios.get(API_URL_USER)
+            .then(res => {
+                setUsers(res.data);
+            })
+            .catch(error => {
+                console.error('There was an error!', error);
+            });
+    }, []);
 
     const handlePriorityChange = (event: SelectChangeEvent) => {
         const newPriority = event.target.value;
@@ -37,55 +42,33 @@ const CreateTaskForm = () => {
         setNewTask({ ...newTask, priorityLevel: newPriority });
     };
 
-
-    const handleAssigneeChange = (_event: any, value: User | null) => {
-        setNewTask({ ...newTask, assignee: value ? value.id : "" });
-    };
-    
-
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setNewTask({ ...newTask, [event.target.name]: event.target.value });
     };
 
-
-    const handleSubmit = () => {// handles create button press
-        // make a post request to the server 
-        console.log('Create Button Clicked');
-        console.log(newTask);
-        axios.post(API_URL_TASK, newTask)
-        .then(response => {
-            console.log('Task Created:', response.data);
-        })
-        .catch(error => {
-            console.error('Error Response:', error.response);
-            console.error('Error Data:', error.response.data);
-            // More detailed error handling can go here
-        });
+    const handleAssigneeChange = (_event: any, value: User | null) => {
+        setNewTask({ ...newTask, assignee: value ? value.id : "" });
     };
 
-
-    useEffect(() => {
-        axios.get(API_URL_USER)
-            .then(res => setUsers(res.data))
+    const handleSubmit = () => {
+        axios.post(API_URL_TASK, newTask)
+            .then(response => {
+                console.log('Task Created:', response.data);
+            })
             .catch(error => {
-                console.error('There was an error!', error);
+                console.error('Error Response:', error.response);
+                console.error('Error Data:', error.response.data);
             });
-    }, []);
-
-    
-
-
-    const assignees = users; // store user displayNames inside this variable
-
+    };
 
     return (
-
         <>
             <Header />
             <Grid container justifyContent="center" style={{ marginTop: '90px' }}>
                 <Grid item xs={12} md={6}>
                     <Card sx={{ p: 3 }}>
                         <Typography variant="h5" style={{ fontFamily: "monospace", textAlign: 'center' }}>Create A New Task</Typography>
+                        
                         <TextField
                             fullWidth
                             placeholder="Title"
@@ -94,7 +77,6 @@ const CreateTaskForm = () => {
                             onChange={handleChange}
                             margin="normal"
                         />
-
                         <TextField
                             fullWidth
                             id="outlined-multiline-static"
@@ -114,10 +96,11 @@ const CreateTaskForm = () => {
                             margin="normal"
                         />
                         <Autocomplete
-                            disablePortal={false}
+                            disablePortal
                             onChange={handleAssigneeChange}
                             id="combo-box-demo"
-                            options={assignees}
+                            options={users}
+                            getOptionLabel={(option) => option.displayName}
                             sx={{ width: '100%', marginTop: 2 }}
                             renderInput={(params) => <TextField {...params} label="Assignee" />}
                         />

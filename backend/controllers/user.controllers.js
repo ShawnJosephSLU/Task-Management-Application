@@ -37,13 +37,19 @@ const getAllUsers = async (req, res, next) => {
 const getAllUserNames = async (req, res, next) => {
     try {
         const users = await User.find();
-        const displayNames = users.map(user => user.displayName);
-        res.status(200).json(displayNames);
+        const userDisplayNames = users.map(user => {
+            return {
+                id: user._id,
+                displayName: user.displayName
+            };
+        });
+        res.status(200).json(userDisplayNames);
     } catch (error) {
         // ... Error handling ...
         res.status(500).send('An error occurred');
     }
 }
+
 
 
 module.exports = { createNewUsers, getAllUsers,getAllUserNames };
