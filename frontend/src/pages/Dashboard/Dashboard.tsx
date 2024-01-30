@@ -3,7 +3,7 @@
 import Header from "../../components/Header/Header"
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Divider, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography} from "@mui/material";
+import { Divider, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography } from "@mui/material";
 
 
 
@@ -18,7 +18,7 @@ interface Task {
         displayName: string;
     };
     priorityLevel: string;
-    notes: string[]; 
+    notes: string[];
     status: string;
 }
 
@@ -32,19 +32,19 @@ const Dashboard = () => {
             .catch(error => {
                 console.error('There was an error!', error);
             });
-    }, []); 
+    }, []);
 
     const homeContentStyle = {
         marginTop: '90px',
     };
 
     const topBarStyle = {
-        display: 'flex',        
-        justifyContent: 'center', 
-        alignItems: 'center',   
-        gap: '1rem',           
-        marginTop: '90px',    
-        marginBottom: '3rem'   
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: '1rem',
+        marginTop: '90px',
+        marginBottom: '3rem'
     };
 
     return (
@@ -52,12 +52,12 @@ const Dashboard = () => {
             <Header />
             <div style={homeContentStyle}>
                 <Toolbar style={topBarStyle} >
-                    
-                <Typography variant="h5" style={{fontFamily: "monospace"}}>All Available Tasks</Typography>
+
+                    <Typography variant="h5" style={{ fontFamily: "monospace" }}>All Available Tasks</Typography>
                 </Toolbar>
 
                 <TableContainer >
-                    <Divider/>
+                    <Divider />
                     <Table>
                         <TableHead>
                             <TableRow>

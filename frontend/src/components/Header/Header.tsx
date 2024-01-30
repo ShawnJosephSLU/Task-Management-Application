@@ -8,9 +8,7 @@ const Header = () => {
         <AppBar>
             <Toolbar style={{ justifyContent: 'space-between' }}>
 
-                <Typography variant="h5" fontFamily="fantasy" noWrap>
-                    TODO LIST
-                </Typography>
+                <Typography variant="h5" > TODO LIST </Typography>
 
                 <div style={{ display: 'flex', justifyContent: 'center', flexGrow: 1 }}>
                     <NavLink to="/dashboard"><Button style={{ color: '#ffffff' }}>Home</Button></NavLink>

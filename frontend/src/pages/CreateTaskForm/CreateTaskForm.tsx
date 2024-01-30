@@ -1,5 +1,5 @@
 // TaskForm
-import { Autocomplete, Button, FormGroup, TextField, Typography } from "@mui/material";
+import { Autocomplete, Button, FormGroup, TextField, Toolbar, Typography } from "@mui/material";
 import Header from "../../components/Header/Header";
 //import { useEffect, useState } from 'react';
 
@@ -14,12 +14,25 @@ const CreateTaskForm = () => {
         marginTop: '90px',
     };
 
+    const topBarStyle = {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: '1rem',
+        marginTop: '90px',
+        marginBottom: '3rem'
+    };
+    
     return (
 
         <>
             <Header />
             <div style={createNewTaskStyle}>
-                <h1>Create New Task</h1>
+            <Toolbar style={topBarStyle} >
+                    
+                    <Typography variant="h5" style={{fontFamily: "monospace"}}>Create A New Task</Typography>
+                    </Toolbar>
+    
                 <FormGroup>
                     <TextField placeholder="Title" type="text" />
                     <TextField placeholder="Description" type="" />
