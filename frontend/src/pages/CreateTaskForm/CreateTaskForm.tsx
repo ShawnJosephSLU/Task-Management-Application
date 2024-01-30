@@ -1,5 +1,5 @@
 // TaskForm
-import { Autocomplete, Button, Card, Grid, Input, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Toolbar, Typography } from "@mui/material";
+import { Autocomplete, Button, Card, Grid, MenuItem, Select, SelectChangeEvent, TextField, Typography } from "@mui/material";
 import Header from "../../components/Header/Header";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -25,7 +25,7 @@ const CreateTaskForm = () => {
     };
 
     const handleFormCancel = () => {// handles cancel button press
-        // clear all fields and navigate the the dashboard
+        // navigate the the dashboard
         console.log('Cancel Button Clicked');
     };
 
