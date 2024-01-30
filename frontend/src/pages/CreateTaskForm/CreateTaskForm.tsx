@@ -5,7 +5,8 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 
-const API_URL_USER: string = "http://localhost:3333/user/displayNames";
+const API_URL_USER: string = "http://localhost:3333/user/displayNames"; 
+const API_URL_TASK: string = "http://localhost:3333/task";
 
 interface User {
     id: string;
@@ -24,16 +25,16 @@ const CreateTaskForm = () => {
         title: "",
         description: "",
         dueDate: currentDate.toLocaleDateString('en-US'), // current date by default
-        priority: "Medium",
-        assignee: "", // TODO: by default the current user should assign the task to himself
-        note: ""
+        priorityLevel: "Medium",
+        assignee: "Shawn Joseph", // TODO: by default the current user should assign the task to himself
+        notes: "",
     });
 
 
     const handlePriorityChange = (event: SelectChangeEvent) => {
         const newPriority = event.target.value;
         setPriorityLevels(newPriority);
-        setNewTask({ ...newTask, priority: newPriority });
+        setNewTask({ ...newTask, priorityLevel: newPriority });
     };
 
 
@@ -51,6 +52,15 @@ const CreateTaskForm = () => {
         // make a post request to the server 
         console.log('Create Button Clicked');
         console.log(newTask);
+        axios.post(API_URL_TASK, newTask)
+        .then(response => {
+            console.log('Task Created:', response.data);
+        })
+        .catch(error => {
+            console.error('Error Response:', error.response);
+            console.error('Error Data:', error.response.data);
+            // More detailed error handling can go here
+        });
     };
 
 
@@ -62,8 +72,11 @@ const CreateTaskForm = () => {
             });
     }, []);
 
+    
+
 
     const assignees = users; // store user displayNames inside this variable
+
 
     return (
 
@@ -125,7 +138,7 @@ const CreateTaskForm = () => {
                             fullWidth
                             id="outlined-multiline-static"
                             label="Notes"
-                            name="note"
+                            name="notes"
                             multiline
                             rows={4}
                             margin="normal"

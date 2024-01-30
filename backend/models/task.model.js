@@ -10,7 +10,7 @@ const taskSchema = new Schema({
         userId: { type: Schema.Types.ObjectId, ref: 'User' },
         displayName: String
     },
-    priorityLevel: { type: String, enum: ['low', 'medium', 'high'], default: 'low' },
+    priorityLevel: { type: String, enum: ['Low', 'Medium', 'High'], default: 'Low' },
     notes: [{ type: String }],
     status: { type: String, enum: ['pending', 'in progress', 'completed', 'canceled'], default: 'pending' }
 }, { versionKey: false });
