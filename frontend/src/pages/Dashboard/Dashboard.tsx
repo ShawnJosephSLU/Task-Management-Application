@@ -7,7 +7,7 @@ import { Divider, Table, TableBody, TableCell, TableContainer, TableHead, TableR
 
 
 
-const API_URL: string = "http://localhost:3333/task"; // TODO:  Store this in .env file
+const API_URL_TASK: string = "http://localhost:3333/task"; // TODO:  Store this in .env file
 
 interface Task {
     id: string;
@@ -27,7 +27,7 @@ const Dashboard = () => {
     const [tasks, setTasks] = useState<Task[]>([]);
 
     useEffect(() => {
-        axios.get(API_URL)
+        axios.get(API_URL_TASK)
             .then(res => setTasks(res.data))
             .catch(error => {
                 console.error('There was an error!', error);

@@ -34,4 +34,16 @@ const getAllUsers = async (req, res, next) => {
     }
 }
 
-module.exports = { createNewUsers, getAllUsers };
+const getAllUserNames = async (req, res, next) => {
+    try {
+        const users = await User.find();
+        const displayNames = users.map(user => user.displayName);
+        res.status(200).json(displayNames);
+    } catch (error) {
+        // ... Error handling ...
+        res.status(500).send('An error occurred');
+    }
+}
+
+
+module.exports = { createNewUsers, getAllUsers,getAllUserNames };
