@@ -2,11 +2,8 @@
 
 import Header from "../../components/Header/Header"
 import { useEffect, useState } from 'react';
-
-
 import axios from 'axios';
-import { IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Toolbar, Typography } from "@mui/material";
-import { Button, Input } from "@mui/base";
+import { Divider, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Toolbar, Typography} from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 
 // In your component, use it like any other React component
@@ -59,10 +56,11 @@ const Dashboard = () => {
             <div style={homeContentStyle}>
                 <Toolbar style={topBarStyle} >
                     
-                    <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+                <Typography variant="h5" style={{fontFamily: "monospace"}}>All Available Tasks</Typography>
                 </Toolbar>
 
                 <TableContainer >
+                    <Divider/>
                     <Table>
                         <TableHead>
                             <TableRow>
