@@ -3,8 +3,15 @@
 import Header from "../../components/Header/Header"
 import { useEffect, useState } from 'react';
 
+
 import axios from 'axios';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Toolbar, Typography } from "@mui/material";
+import { Button, Input } from "@mui/base";
+import SearchIcon from '@mui/icons-material/Search';
+
+// In your component, use it like any other React component
+<SearchIcon />
+
 
 const API_URL: string = "http://localhost:3333/task"; // TODO:  Store this in .env file
 
@@ -33,17 +40,28 @@ const Dashboard = () => {
             });
     }, []); // Empty dependency array to run only on component mount
 
-    const homeContentStyle = { 
-        marginTop: '90px', 
-      };
+    const homeContentStyle = {
+        marginTop: '90px',
+    };
+
+    const topBarStyle = {
+        display: 'flex',        
+        justifyContent: 'center', 
+        alignItems: 'center',   
+        gap: '1rem',           
+        marginTop: '90px',    
+        marginBottom: '3rem'   
+    };
+
     return (
         <>
             <Header />
             <div style={homeContentStyle}>
-                <Typography variant="h4" >TASK LIST</Typography>
-                <button>Sort</button>
-                <button>Filter</button>
-                <input placeholder="search" />
+                <Toolbar style={topBarStyle} >
+                    
+                    <TextField id="outlined-basic" label="Outlined" variant="outlined" />
+                </Toolbar>
+
                 <TableContainer >
                     <Table>
                         <TableHead>
