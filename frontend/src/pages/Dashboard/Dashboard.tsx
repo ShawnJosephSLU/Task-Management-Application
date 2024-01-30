@@ -33,46 +33,50 @@ const Dashboard = () => {
             });
     }, []); // Empty dependency array to run only on component mount
 
+    const homeContentStyle = { 
+        marginTop: '90px', 
+      };
     return (
         <>
             <Header />
-
-            <Typography variant="h4">Tasks</Typography>
-            <button>Sort</button>
-            <button>Filter</button>
-            <input placeholder="search" />
-            <TableContainer >
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell style={{ width: '40px' }}>ID</TableCell>
-                            <TableCell style={{ width: '100px' }}>Title</TableCell>
-                            <TableCell style={{ width: '400px' }}>Description</TableCell>
-                            <TableCell style={{ width: '100px' }}>Due Date</TableCell>
-                            <TableCell style={{ width: '200px' }}>Assignee</TableCell>
-                            <TableCell style={{ width: '160px' }}>Priority Level</TableCell>
-                            <TableCell style={{ width: '400px' }}>Notes</TableCell>
-                            <TableCell style={{ width: '100px' }}>Status</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {
-                            tasks.map((task, index) => (
-                                <TableRow key={index}>
-                                    <TableCell>{index + 1}</TableCell>
-                                    <TableCell>{task.title}</TableCell>
-                                    <TableCell>{task.description}</TableCell>
-                                    <TableCell>{task.dueDate.slice(0, 10)}</TableCell>
-                                    <TableCell>{task.assignee.displayName}</TableCell>
-                                    <TableCell>{task.priorityLevel}</TableCell>
-                                    <TableCell>{task.notes}</TableCell>
-                                    <TableCell>{task.status}</TableCell>
-                                </TableRow>
-                            ))
-                        }
-                    </TableBody>
-                </Table>
-            </TableContainer>
+            <div style={homeContentStyle}>
+                <Typography variant="h4" >TASK LIST</Typography>
+                <button>Sort</button>
+                <button>Filter</button>
+                <input placeholder="search" />
+                <TableContainer >
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell style={{ width: '40px' }}>ID</TableCell>
+                                <TableCell style={{ width: '100px' }}>Title</TableCell>
+                                <TableCell style={{ width: '400px' }}>Description</TableCell>
+                                <TableCell style={{ width: '100px' }}>Due Date</TableCell>
+                                <TableCell style={{ width: '200px' }}>Assignee</TableCell>
+                                <TableCell style={{ width: '160px' }}>Priority Level</TableCell>
+                                <TableCell style={{ width: '400px' }}>Notes</TableCell>
+                                <TableCell style={{ width: '100px' }}>Status</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {
+                                tasks.map((task, index) => (
+                                    <TableRow key={index}>
+                                        <TableCell>{index + 1}</TableCell>
+                                        <TableCell>{task.title}</TableCell>
+                                        <TableCell>{task.description}</TableCell>
+                                        <TableCell>{task.dueDate.slice(0, 10)}</TableCell>
+                                        <TableCell>{task.assignee.displayName}</TableCell>
+                                        <TableCell>{task.priorityLevel}</TableCell>
+                                        <TableCell>{task.notes}</TableCell>
+                                        <TableCell>{task.status}</TableCell>
+                                    </TableRow>
+                                ))
+                            }
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </div>
         </>
     );
 }
