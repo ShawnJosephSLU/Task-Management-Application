@@ -1,17 +1,28 @@
 // UserSignInForm
 
 //TODO: Handle Authentication when signing in
-import { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button, Card, CardContent, Grid, TextField, Typography, InputAdornment, IconButton } from "@mui/material";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import PersonIcon from '@mui/icons-material/Person';
 import LockIcon from '@mui/icons-material/Lock';
+import axios from "axios";
+
+const SIGNIN_ENDPOINT = "http://localhost:3333/user/signin"; // Backend sign in endpoint. TODO: save in a .env file
 
 const UserSignInForm = () => {
+    const [credentials, setCredentials] = useState({ email: '', password: '' });
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
+
+    const [errorMessage, setErrorMessage] = useState(''); // this state holds the error message
+
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setCredentials({ ...credentials, [event.target.name]: event.target.value });
+    };
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -19,10 +30,31 @@ const UserSignInForm = () => {
 
     const handleSignIn = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault(); // Prevent default form submission behavior
-        // TODO: Add your sign-in logic here
-        // If sign-in is successful:
-        navigate('/dashboard');
+
+        // Check if all fields are filled
+        if (!credentials.email || !credentials.password) {
+            setErrorMessage('All fields must be filled');
+            return; // Stop the sign-in process if fields are empty
+        }
+
+        try {
+            const response = await axios.post(SIGNIN_ENDPOINT, credentials);
+            console.log('Login successful:', response.data);
+
+            localStorage.setItem('token', response.data.token); // Save the token
+            navigate('/dashboard'); // Redirect to dashboard
+            setErrorMessage(''); // Clear any error messages on successful login
+        } catch (error: any) {
+            if (error.response) {
+                // If the server sends a response with an error
+                setErrorMessage('Incorrect username or password');
+            } else {
+                // For other errors like network errors, etc.
+                setErrorMessage('An error occurred. Please try again later.');
+            }
+        }
     };
+
 
     const onSignUpBtnClicked = () => {
         navigate('/signup');
@@ -36,11 +68,21 @@ const UserSignInForm = () => {
                         <Typography variant="h4" textAlign="center" gutterBottom>TO DO LIST</Typography>
                         <Typography variant="h6" textAlign="center" gutterBottom>Sign In</Typography>
                         <form onSubmit={handleSignIn}>
+                            {
+                                errorMessage && (
+                                    <Typography color="error" textAlign="center" style={{ marginTop: '10px' }}>
+                                        {errorMessage}
+                                    </Typography>
+                                )
+                            }
                             <TextField
+                                name="email" // The name attribute corresponds to the state keys
+                                value={credentials.email}
+                                onChange={handleChange}
                                 fullWidth
                                 margin="normal"
-                                placeholder="Username or Email"
-                                type="text"  // Changed from email to text
+                                placeholder="Email"
+                                type="text"
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
@@ -51,6 +93,9 @@ const UserSignInForm = () => {
                             />
 
                             <TextField
+                                name="password" // The name attribute corresponds to the state keys
+                                value={credentials.password}
+                                onChange={handleChange}
                                 fullWidth
                                 margin="normal"
                                 placeholder="Password"
@@ -91,6 +136,6 @@ const UserSignInForm = () => {
             </Grid>
         </Grid>
     );
-}
+};
 
 export default UserSignInForm;
