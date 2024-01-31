@@ -26,7 +26,7 @@ const CreateTaskForm = () => {
         description: "",
         dueDate: currentDate.toLocaleDateString('en-US'),
         priorityLevel: "Medium",
-        assignee: "",
+        assignee: { userId: "", displayName: "" },
         notes: "",
     });
 
@@ -34,11 +34,13 @@ const CreateTaskForm = () => {
         axios.get(API_URL_USER)
             .then(res => {
                 setUsers(res.data);
+                console.log("Users loaded:", res.data);
             })
             .catch(error => {
                 console.error('There was an error!', error);
             });
     }, []);
+
 
     const handlePriorityChange = (event: SelectChangeEvent) => {
         const newPriority = event.target.value;
@@ -51,17 +53,25 @@ const CreateTaskForm = () => {
     };
 
     const handleAssigneeChange = (_event: any, value: User | null) => {
-        setNewTask({ ...newTask, assignee: value ? value.id : "" });
+        setNewTask({
+            ...newTask,
+            assignee: {
+                userId: value ? value.id : "",
+                displayName: value ? value.displayName : ""
+            }
+        });
     };
 
+
     const handleSubmit = () => {
-        // Check if any required fields are empty
+        
+        // Checks if any required fields are empty
         if (!newTask.title || !newTask.description || !newTask.dueDate || !newTask.assignee) {
             alert("All fields must be filled");
             return; // Prevents the function from proceeding further
         }
-    
-        
+
+
         axios.post(API_URL_TASK, newTask) // If validation passes, proceed to making  the post request
             .then(response => {
                 console.log('Task Created:', response.data);
@@ -71,8 +81,11 @@ const CreateTaskForm = () => {
                 console.error('Error Response:', error.response);
                 console.error('Error Data:', error.response.data);
             });
+
+            console.log("Submitting task:", newTask);
+
     };
-    
+
 
     return (
         <>
@@ -81,7 +94,7 @@ const CreateTaskForm = () => {
                 <Grid item xs={12} md={6}>
                     <Card sx={{ p: 3 }}>
                         <Typography variant="h5" style={{ fontFamily: "monospace", textAlign: 'center' }}>Create A New Task</Typography>
-                        
+
                         <TextField
                             fullWidth
                             placeholder="Title"
