@@ -2,7 +2,8 @@ import { Autocomplete, Button, Card, Grid, MenuItem, Select, SelectChangeEvent, 
 import Header from "../../components/Header/Header";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+
 
 const API_URL_USER: string = "http://localhost:3333/user/displayNames";
 const API_URL_TASK: string = "http://localhost:3333/task";
@@ -13,6 +14,9 @@ interface User {
 }
 
 const CreateTaskForm = () => {
+
+    const navigate = useNavigate();
+
     const [users, setUsers] = useState<User[]>([]);
     const [priorityLevels, setPriorityLevels] = useState('Medium');
     const currentDate = new Date();
@@ -51,15 +55,24 @@ const CreateTaskForm = () => {
     };
 
     const handleSubmit = () => {
-        axios.post(API_URL_TASK, newTask)
+        // Check if any required fields are empty
+        if (!newTask.title || !newTask.description || !newTask.dueDate || !newTask.assignee) {
+            alert("All fields must be filled");
+            return; // Prevents the function from proceeding further
+        }
+    
+        
+        axios.post(API_URL_TASK, newTask) // If validation passes, proceed to making  the post request
             .then(response => {
                 console.log('Task Created:', response.data);
+                navigate('/dashboard'); // Navigate to the dashboard
             })
             .catch(error => {
                 console.error('Error Response:', error.response);
                 console.error('Error Data:', error.response.data);
             });
     };
+    
 
     return (
         <>
