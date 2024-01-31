@@ -1,9 +1,29 @@
 // Header
 
 import { AppBar, Button, Toolbar, Typography } from "@mui/material";
-import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+    const navigate = useNavigate();
+
+    const navigateToDashboard = () => { //  navigates the user to the dashboard
+        navigate('/dashboard');
+    }
+
+    const navigateToMyTasks = () => { // navigates the user to their created tasks
+        navigate('/mytasks');
+    };
+
+    const navigateToNewTaskForm = () => { //  navigates the user to the new Task for
+        navigate('/create-task');
+    };
+
+    const handleSignOut = () => { // handles the user sign out
+
+        //TODO: Sign user out successfully before navigating away
+        navigate('/signin');
+    };
+
     return (
         <AppBar>
             <Toolbar style={{ justifyContent: 'space-between' }}>
@@ -11,12 +31,12 @@ const Header = () => {
                 <Typography variant="h5" > TODO LIST </Typography>
 
                 <div style={{ display: 'flex', justifyContent: 'center', flexGrow: 1 }}>
-                    <NavLink to="/dashboard"><Button style={{ color: '#ffffff' }}>Home</Button></NavLink>
-                    <NavLink to='/mytasks'><Button style={{ color: '#ffffff' }}>My Created Tasks</Button></NavLink>
-                    <NavLink to='/create-task'><Button style={{ color: '#ffffff' }}>Create New Task</Button></NavLink>
+                    <Button onClick={navigateToDashboard} style={{ color: '#ffffff' }}>Home</Button>
+                    <Button onClick={navigateToMyTasks} style={{ color: '#ffffff' }}>My Created Tasks</Button>
+                    <Button onClick={navigateToNewTaskForm} style={{ color: '#ffffff' }}>Create New Task</Button>
                 </div>
 
-                <NavLink to='/signin'><Button style={{ color: '#ffffff' }}>Sign Out</Button></NavLink>
+                <Button onClick={handleSignOut} style={{ color: '#ffffff' }}>Sign Out</Button>
 
             </Toolbar>
         </AppBar>

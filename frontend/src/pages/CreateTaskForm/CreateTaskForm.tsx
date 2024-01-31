@@ -2,7 +2,7 @@ import { Autocomplete, Button, Card, Grid, MenuItem, Select, SelectChangeEvent, 
 import Header from "../../components/Header/Header";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 
 
 const API_URL_USER: string = "http://localhost:3333/user/displayNames";
@@ -62,9 +62,13 @@ const CreateTaskForm = () => {
         });
     };
 
+    // handle cancel
+    const handleCancel = () => {
+        navigate('/dashboard');
+    };
 
     const handleSubmit = () => {
-        
+
         // Checks if any required fields are empty
         if (!newTask.title || !newTask.description || !newTask.dueDate || !newTask.assignee) {
             alert("All fields must be filled");
@@ -82,7 +86,7 @@ const CreateTaskForm = () => {
                 console.error('Error Data:', error.response.data);
             });
 
-            console.log("Submitting task:", newTask);
+        console.log("Submitting task:", newTask);
 
     };
 
@@ -155,9 +159,7 @@ const CreateTaskForm = () => {
                         />
                         <Grid container spacing={2} justifyContent="center" sx={{ marginTop: 2 }}>
                             <Grid item>
-                                <NavLink to="/dashboard">
-                                    <Button variant="outlined">Cancel</Button>
-                                </NavLink>
+                                <Button variant="outlined" onClick={handleCancel}>Cancel</Button>
                             </Grid>
                             <Grid item>
                                 <Button variant="contained" onClick={handleSubmit}>Create</Button>

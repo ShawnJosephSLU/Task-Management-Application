@@ -24,6 +24,10 @@ const UserSignInForm = () => {
         navigate('/dashboard');
     };
 
+    const onSignUpBtnClicked = () => {
+        navigate('/signup');
+    };
+
     return (
         <Grid container justifyContent="center" alignItems="center" style={{ minHeight: '100vh', background: 'your-background-style' }}>
             <Grid item xs={12} sm={6} md={4}>
@@ -66,14 +70,20 @@ const UserSignInForm = () => {
                                     ),
                                 }}
                             />
-                            <Button type="submit" fullWidth variant="contained" color="primary" style={{ marginTop: '20px' }}>
+                            <Button type="submit"
+                                fullWidth variant="contained"
+                                color="primary"
+                                style={{ marginTop: '20px' }}
+                            >
                                 Sign In
                             </Button>
+
                             <Typography textAlign="center" style={{ marginTop: '20px' }}>
                                 Don't have an account?
                             </Typography>
-                            <Button fullWidth variant="outlined" style={{ marginTop: '10px' }}>
-                                <NavLink to="/signup" style={{ textDecoration: 'none' }}>Sign Up</NavLink>
+
+                            <Button onClick={onSignUpBtnClicked} fullWidth variant="outlined" style={{ marginTop: '10px' }}>
+                                Sign Up
                             </Button>
                         </form>
                     </CardContent>
