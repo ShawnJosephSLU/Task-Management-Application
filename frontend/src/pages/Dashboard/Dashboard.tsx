@@ -31,6 +31,21 @@ const Dashboard = () => {
             });
     }, []);
 
+    const getRowBackgroundColor = (status: string) => {
+        switch (status.toLowerCase()) {
+            case 'completed':
+                return '#C8E6C9'; // light green
+            case 'pending':
+                return '#E0F7FA'; // light blue
+            case 'in progress':
+                return '#E1BEE7'; // light purple
+            case 'cancelled':
+                return '#FFCDD2'; // light red
+            default:
+                return undefined;
+        }
+    };
+
     const homeContentStyle = {
         marginTop: '90px',
     };
@@ -69,7 +84,7 @@ const Dashboard = () => {
                         </TableHead>
                         <TableBody>
                             {tasks.map((task, index) => (
-                                <TableRow key={index}>
+                                <TableRow key={index} style={{ backgroundColor: getRowBackgroundColor(task.status) }}>
                                     <TableCell>{index + 1}</TableCell>
                                     <TableCell>{task.title}</TableCell>
                                     <TableCell>{task.description}</TableCell>
