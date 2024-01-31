@@ -5,7 +5,7 @@ const checkAuth = require('../middleware/check-auth-user');
 const router =  express.Router();
 
 
-router.post('/', userController.createNewUsers); //  creates a new user
+router.post('/signup', userController.createNewUsers); //  creates a new user
 
 router.get('/', userController.getAllUsers) // fetches all users from the database
 
