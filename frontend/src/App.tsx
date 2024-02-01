@@ -25,7 +25,7 @@ function App() {
           <Route path="/signup" element={<NewUserForm />} />
           <Route path="/create-task" element={<ProtectedRoute><CreateTaskForm /></ProtectedRoute>} />
           <Route path="/edit-task" element={<ProtectedRoute><EditTaskForm /></ProtectedRoute>} />
-          <Route path="/mytasks" element={<ProtectedRoute><MyCreatedTasks /></ProtectedRoute>} />
+          <Route path="/mytasks" element={<MyCreatedTasks />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

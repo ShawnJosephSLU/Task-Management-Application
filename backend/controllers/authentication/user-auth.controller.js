@@ -44,7 +44,7 @@ const signInUser = async (req, res, next) => { // handles user SignIn
             expiresIn: 10800, // 3 hrs in seconds
             user: {
                 _id: user._id,
-                username: user.username
+                displayName: user.displayName
             }
         });
 

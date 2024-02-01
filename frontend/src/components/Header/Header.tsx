@@ -24,11 +24,13 @@ const Header = () => {
         navigate('/signin');
     };
 
+    const displayName = localStorage.getItem('displayName')
+
     return (
         <AppBar>
             <Toolbar style={{ justifyContent: 'space-between' }}>
 
-                <Typography variant="h5" > TODO LIST </Typography>
+                <Typography variant="h5" > {displayName} </Typography>
 
                 <div style={{ display: 'flex', justifyContent: 'center', flexGrow: 1 }}>
                     <Button onClick={navigateToDashboard} style={{ color: '#ffffff' }}>Home</Button>

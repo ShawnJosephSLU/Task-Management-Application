@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import Header from "../../components/Header/Header";
 import Filter from '../../components/Filter/filter';
+import { useNavigate } from 'react-router-dom';
 
 const API_URL_TASK: string = "http://localhost:3333/task"; // TODO: Store this in .env file
 
@@ -38,13 +39,60 @@ const MyCreatedTasks = () => {
     const [tasks, setTasks] = useState<Task[]>([]);
     const [sortConfig, setSortConfig] = useState<{ key: SortableTaskKeys, direction: 'asc' | 'desc' } | null>(null);
 
+    const navigate = useNavigate();
+
     useEffect(() => {
-        axios.get(API_URL_TASK)
+        const token = localStorage.getItem('authToken'); // retrieve token from local storage
+        if (token) {
+            axios.get(API_URL_TASK, {
+                headers: {
+                    'Authorization': `Bearer ${token}` // use token in Authorization header
+                }
+            })
             .then(res => setTasks(res.data))
             .catch(error => {
                 console.error('There was an error!', error);
             });
+        } else {
+            console.error('No token found in local storage.');
+        }
     }, []);
+    
+
+    const handleApplyFilters = (filtersFromChild: { priorityLevel: string; status: string; user: string; }) => {
+        const apiParams = {
+            priorityLevel: filtersFromChild.priorityLevel,
+            status: filtersFromChild.status,
+            'assignee.userId': filtersFromChild.user,
+        };
+
+        const queryString = Object.entries(apiParams)
+            .filter(([, value]) => value) // filter out empty parameters
+            .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+            .join('&');
+
+        const requestUrl = `${API_URL_TASK}?${queryString}`;
+        const token = localStorage.getItem('authToken'); // Retrieve token from local storage
+        const displayName = localStorage.getItem('displayName'); // get displayName from local storage
+
+        axios.get(requestUrl, {
+            headers: {
+                'Authorization': `Bearer ${token}` // Use token in Authorization header
+            }
+        })
+            .then(res => {
+                console.log('Data fetched with filters:', apiParams);
+                console.log('Response data:', res.data);
+                console.log(displayName);
+                setTasks(res.data); // update the state with the fetched data
+            })
+            .catch(error => {
+                console.error('There was an error fetching the tasks with filters:', apiParams, 'Error:', error);
+                navigate('/signin');
+            });
+    };
+
+
 
     const getRowBackgroundColor = (status: string) => {
         switch (status.toLowerCase()) {
@@ -105,10 +153,11 @@ const MyCreatedTasks = () => {
     return (
         <>
             <Header />
+            
             <div style={homeContentStyle}>
                 <Toolbar style={topBarStyle}>
-                    <Typography variant="h5" style={{ fontFamily: "monospace" }}>My Created Tasks</Typography>
-                    <Filter />
+                    <Typography variant="h5" style={{ fontFamily: "monospace" }}>TODO LIST</Typography>
+                    <Filter onApplyFilters={handleApplyFilters} />
                 </Toolbar>
 
                 <TableContainer>
