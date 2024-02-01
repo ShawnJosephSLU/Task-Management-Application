@@ -34,7 +34,6 @@ const CreateTaskForm = () => {
         axios.get(API_URL_USER)
             .then(res => {
                 setUsers(res.data);
-                console.log("Users loaded:", res.data);
             })
             .catch(error => {
                 console.error('There was an error!', error);
