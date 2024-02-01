@@ -35,9 +35,10 @@ const getFilteredTasks = async (req, res, next) => {
         let filter = {...req.query}; // extract filter from query parameters
 
         if (filter['assignee.userId']) { 
+            // Convert 'assignee.userId' from string to ObjectId, keeping other filters as is
             filter['assignee.userId'] = new mongoose.Types.ObjectId(filter['assignee.userId']);
-            filter = { 'assignee.userId': filter['assignee.userId'] };
         }
+        
         
         let tasks;
         if (Object.keys(filter).length === 0) {// Check if the filter is empty (no query parameters)

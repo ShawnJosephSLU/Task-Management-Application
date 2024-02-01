@@ -17,6 +17,9 @@ interface User {
     displayName: string;
 }
 
+interface FilterProps {
+    onApplyFilters: (filters: { priorityLevel: string; status: string; user: string; }) => void;
+}
 const API_URL_USER = "http://localhost:3333/user/displayNames";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -28,14 +31,16 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     },
 }));
 
-export default function CustomizedDialogs() {
+const Filter: React.FC<FilterProps> = ({ onApplyFilters }) => {
     const [open, setOpen] = useState(false);
     const [filters, setFilters] = useState({
-        priority: '',
+        priorityLevel: '',
         status: '',
         user: '',
     });
     const [users, setUsers] = useState<User[]>([]);
+
+    
 
     useEffect(() => {
         axios.get(API_URL_USER)
@@ -60,13 +65,13 @@ export default function CustomizedDialogs() {
     };
 
     const applyFilters = () => {
-        console.log(filters);
+        onApplyFilters(filters); 
         handleClose();
     };
 
     const clearFilters = () => {
         setFilters({
-            priority: '',
+            priorityLevel: '',
             status: '',
             user: '',
         });
@@ -107,9 +112,9 @@ export default function CustomizedDialogs() {
                     <FormControl fullWidth margin="normal">
                         <InputLabel>Priority</InputLabel>
                         <Select
-                            value={filters.priority}
+                            value={filters.priorityLevel}
                             label="Priority"
-                            onChange={handleChange('priority')}
+                            onChange={handleChange('priorityLevel')}
                         >
                             <MenuItem value="Low">Low</MenuItem>
                             <MenuItem value="Medium">Medium</MenuItem>
@@ -123,10 +128,10 @@ export default function CustomizedDialogs() {
                             label="Status"
                             onChange={handleChange('status')}
                         >
-                            <MenuItem value="Pending">Pending</MenuItem>
-                            <MenuItem value="Completed">Completed</MenuItem>
-                            <MenuItem value="InProgress">In Progress</MenuItem>
-                            <MenuItem value="Canceled">Canceled</MenuItem>
+                            <MenuItem value="pending">Pending</MenuItem>
+                            <MenuItem value="completed">Completed</MenuItem>
+                            <MenuItem value="in progress">In Progress</MenuItem>
+                            <MenuItem value="canceled">Canceled</MenuItem>
                         </Select>
                     </FormControl>
                     <FormControl fullWidth margin="normal">
@@ -154,3 +159,4 @@ export default function CustomizedDialogs() {
     );
 }
 
+export default Filter
