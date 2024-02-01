@@ -1,5 +1,7 @@
 //filter 
-import * as React from 'react';
+
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
@@ -10,8 +12,14 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from '@mui/material';
 
+interface User {
+    id: string;
+    displayName: string;
+}
 
-const BootstrapDialog = styled(Dialog)(({ theme }) => ({ // Styled component to customize the Dialog component's styles
+const API_URL_USER = "http://localhost:3333/user/displayNames";
+
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
         padding: theme.spacing(2),
     },
@@ -20,39 +28,43 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({ // Styled component to 
     },
 }));
 
-
-export default function CustomizedDialogs() { //customized dialog
-    
-    const [open, setOpen] = React.useState(false);// State hooks for dialog visibility and filter values
-    const [filters, setFilters] = React.useState({
+export default function CustomizedDialogs() {
+    const [open, setOpen] = useState(false);
+    const [filters, setFilters] = useState({
         priority: '',
         status: '',
         user: '',
     });
+    const [users, setUsers] = useState<User[]>([]);
 
-    
-    const handleClickOpen = () => { // function to open the dialog
+    useEffect(() => {
+        axios.get(API_URL_USER)
+            .then(response => {
+                setUsers(response.data); 
+            })
+            .catch(error => {
+                console.error('There was an error fetching the users!', error);
+            });
+    }, []);
+
+    const handleClickOpen = () => {
         setOpen(true);
     };
 
-    
-    const handleClose = () => { // function to close the dialog
+    const handleClose = () => {
         setOpen(false);
     };
 
-    // function to handle changes in filter options
-    const handleChange = (filterName: 'priority' | 'status' | 'user') => (event: SelectChangeEvent) => {
+    const handleChange = (filterName: keyof typeof filters) => (event: SelectChangeEvent) => {
         setFilters({ ...filters, [filterName]: event.target.value });
     };
 
-   
-    const applyFilters = () => { // function to apply filters (currently just logs the filters to console)
-        console.log(filters); //TODO:  fetch data from database , based on filters
-        handleClose(); // close the dialog after applying filters
+    const applyFilters = () => {
+        console.log(filters);
+        handleClose();
     };
 
-    
-    const clearFilters = () => { // function to clear all filter selections
+    const clearFilters = () => {
         setFilters({
             priority: '',
             status: '',
@@ -62,20 +74,21 @@ export default function CustomizedDialogs() { //customized dialog
 
     return (
         <>
-            <Button onClick={handleClickOpen}>
+            <Button variant="outlined" onClick={handleClickOpen}>
                 Filter
             </Button>
             <BootstrapDialog
                 onClose={handleClose}
+                aria-labelledby="customized-dialog-title"
                 open={open}
                 PaperProps={{
                     style: {
-                        width: '640px', // set the dialog width
-                        height: '420px', // set the dialog height
+                        width: '640px',
+                        maxHeight: '80vh',
                     },
                 }}
             >
-                <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
+                <DialogTitle id="customized-dialog-title" sx={{ m: 0, p: 2 }}>
                     Filter Options
                 </DialogTitle>
                 <IconButton
@@ -122,9 +135,10 @@ export default function CustomizedDialogs() { //customized dialog
                             value={filters.user}
                             label="User"
                             onChange={handleChange('user')}
-                        >{/** temp data . TODO: make api call to get all users */}
-                            <MenuItem value="User1">User1</MenuItem>
-                            <MenuItem value="User2">User2</MenuItem>
+                        >
+                            {users.map((user) => (
+                                <MenuItem key={user.id} value={user.id}>{user.displayName}</MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                 </DialogContent>
@@ -132,11 +146,11 @@ export default function CustomizedDialogs() { //customized dialog
                     <Button onClick={clearFilters}>Clear Filters</Button>
                     <div>
                         <Button onClick={handleClose}>Cancel</Button>
-                        <Button onClick={applyFilters}>Apply Filters</Button>
+                        <Button color="primary" onClick={applyFilters}>Apply Filters</Button>
                     </div>
                 </DialogActions>
-
             </BootstrapDialog>
         </>
     );
 }
+
