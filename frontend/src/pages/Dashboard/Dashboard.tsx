@@ -1,6 +1,7 @@
 // Dashboard Component
 
 import Header from "../../components/Header/Header";
+import Filter from '../../components/Filter/filter'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Divider, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography } from "@mui/material";
@@ -59,13 +60,16 @@ const Dashboard = () => {
         marginBottom: '3rem'
     };
 
+
     return (
         <>
             <Header />
             <div style={homeContentStyle}>
                 <Toolbar style={topBarStyle} >
                     <Typography variant="h5" style={{ fontFamily: "monospace" }}>All Available Tasks</Typography>
+                    <Filter/>
                 </Toolbar>
+                
 
                 <TableContainer >
                     <Divider />
