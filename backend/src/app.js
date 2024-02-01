@@ -21,9 +21,9 @@ app.use(bodyParser.json());
 const morgan = require('morgan');
 app.use(morgan('dev'));
 
-
+// root route
 app.get('/',  (req, res) => {
-  res.send('Hello, world!');
+  res.send('Todo List Api');
 });
 
 
@@ -34,5 +34,11 @@ app.use('/user', userRouter);
 // import and use task router
 const taskRouter = require('../routes/task.routes');
 app.use('/task' , taskRouter);
+
+
+//error handler
+const { notFound, errorHandler } = require('../middleware/error-handler');
+app.use(notFound);
+app.use(errorHandler);
 
 module.exports = app;
