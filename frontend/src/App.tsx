@@ -1,5 +1,5 @@
 //import './App.css'
-import MyCreatedTasks from './pages/MyCreatedTasks/MyCreatedTasks';
+import MyCreatedTasks from './pages/MyTodos/MyTodos';
 import NewUserForm from './pages/NewUserForm/NewUserForm';
 import CreateTaskForm from './pages/CreateTaskForm/CreateTaskForm';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';

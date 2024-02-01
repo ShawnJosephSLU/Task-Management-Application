@@ -156,7 +156,7 @@ const MyCreatedTasks = () => {
             
             <div style={homeContentStyle}>
                 <Toolbar style={topBarStyle}>
-                    <Typography variant="h5" style={{ fontFamily: "monospace" }}>TODO LIST</Typography>
+                    <Typography variant="h5" style={{ fontFamily: "monospace" }}>MY TODO LIST</Typography>
                     <Filter onApplyFilters={handleApplyFilters} />
                 </Toolbar>
 
