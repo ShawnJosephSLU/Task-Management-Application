@@ -43,6 +43,7 @@ const UserSignInForm = () => {
 
             // After successful authentication in your login flow
             localStorage.setItem('authToken', response.data.token);
+            localStorage.setItem('username', response.data.user.username);
 
             navigate('/dashboard'); // Redirect to dashboard
             setErrorMessage(''); // Clear any error messages on successful login

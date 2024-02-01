@@ -73,6 +73,7 @@ const Dashboard = () => {
 
         const requestUrl = `${API_URL_TASK}?${queryString}`;
         const token = localStorage.getItem('authToken'); // Retrieve token from local storage
+        const username = localStorage.getItem('username'); // get username from local storage
 
         axios.get(requestUrl, {
             headers: {
@@ -82,6 +83,7 @@ const Dashboard = () => {
             .then(res => {
                 console.log('Data fetched with filters:', apiParams);
                 console.log('Response data:', res.data);
+                console.log(username);
                 setTasks(res.data); // update the state with the fetched data
             })
             .catch(error => {
@@ -151,6 +153,7 @@ const Dashboard = () => {
     return (
         <>
             <Header />
+            
             <div style={homeContentStyle}>
                 <Toolbar style={topBarStyle}>
                     <Typography variant="h5" style={{ fontFamily: "monospace" }}>All Available Tasks</Typography>
