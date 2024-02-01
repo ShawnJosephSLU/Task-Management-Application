@@ -41,7 +41,9 @@ const UserSignInForm = () => {
             const response = await axios.post(SIGNIN_ENDPOINT, credentials);
             console.log('Login successful:', response.data);
 
-            localStorage.setItem('token', response.data.token); // Save the token
+            // After successful authentication in your login flow
+            localStorage.setItem('authToken', response.data.token);
+
             navigate('/dashboard'); // Redirect to dashboard
             setErrorMessage(''); // Clear any error messages on successful login
         } catch (error: any) {

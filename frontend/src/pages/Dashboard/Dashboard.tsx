@@ -39,29 +39,44 @@ const Dashboard = () => {
     const [sortConfig, setSortConfig] = useState<{ key: SortableTaskKeys, direction: 'asc' | 'desc' } | null>(null);
 
     useEffect(() => {
-        axios.get(API_URL_TASK)
+        const token = localStorage.getItem('authToken'); // Retrieve token from local storage
+        if (token) {
+            axios.get(API_URL_TASK, {
+                headers: {
+                    'Authorization': `Bearer ${token}` // Use token in Authorization header
+                }
+            })
             .then(res => setTasks(res.data))
             .catch(error => {
                 console.error('There was an error!', error);
             });
+        } else {
+            console.error('No token found in local storage.');
+            // Handle the absence of a token (e.g., redirect to login page)
+        }
     }, []);
+    
 
     const handleApplyFilters = (filtersFromChild: { priorityLevel: string; status: string; user: string; }) => {
         const apiParams = {
             priorityLevel: filtersFromChild.priorityLevel,
             status: filtersFromChild.status,
-            'assignee.userId': filtersFromChild.user, 
+            'assignee.userId': filtersFromChild.user,
         };
-    
+
         const queryString = Object.entries(apiParams)
             .filter(([, value]) => value) // filter out empty parameters
             .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
             .join('&');
-    
-        const requestUrl = `${API_URL_TASK}?${queryString}`;
 
-       
-        axios.get(requestUrl)  //make filtered the request
+        const requestUrl = `${API_URL_TASK}?${queryString}`;
+        const token = localStorage.getItem('authToken'); // Retrieve token from local storage
+
+        axios.get(requestUrl, {
+            headers: {
+                'Authorization': `Bearer ${token}` // Use token in Authorization header
+            }
+        })
             .then(res => {
                 console.log('Data fetched with filters:', apiParams);
                 console.log('Response data:', res.data);
@@ -71,8 +86,9 @@ const Dashboard = () => {
                 console.error('There was an error fetching the tasks with filters:', apiParams, 'Error:', error);
             });
     };
-    
-    
+
+
+
     const getRowBackgroundColor = (status: string) => {
         switch (status.toLowerCase()) {
             case 'completed':
