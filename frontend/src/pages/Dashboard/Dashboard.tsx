@@ -40,7 +40,7 @@ const Dashboard = () => {
                 return '#E0F7FA'; // light blue
             case 'in progress':
                 return '#E1BEE7'; // light purple
-            case 'cancelled':
+            case 'canceled':
                 return '#FFCDD2'; // light red
             default:
                 return undefined;
