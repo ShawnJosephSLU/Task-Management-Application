@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import Header from "../../components/Header/Header";
 import Filter from '../../components/Filter/filter';
+import { useNavigate } from 'react-router-dom';
 
 const API_URL_TASK: string = "http://localhost:3333/task"; // TODO: Store this in .env file
 
@@ -38,12 +39,14 @@ const Dashboard = () => {
     const [tasks, setTasks] = useState<Task[]>([]);
     const [sortConfig, setSortConfig] = useState<{ key: SortableTaskKeys, direction: 'asc' | 'desc' } | null>(null);
 
+    const navigate = useNavigate();
+
     useEffect(() => {
-        const token = localStorage.getItem('authToken'); // Retrieve token from local storage
+        const token = localStorage.getItem('authToken'); // retrieve token from local storage
         if (token) {
             axios.get(API_URL_TASK, {
                 headers: {
-                    'Authorization': `Bearer ${token}` // Use token in Authorization header
+                    'Authorization': `Bearer ${token}` // use token in Authorization header
                 }
             })
             .then(res => setTasks(res.data))
@@ -52,7 +55,6 @@ const Dashboard = () => {
             });
         } else {
             console.error('No token found in local storage.');
-            // Handle the absence of a token (e.g., redirect to login page)
         }
     }, []);
     
@@ -84,6 +86,7 @@ const Dashboard = () => {
             })
             .catch(error => {
                 console.error('There was an error fetching the tasks with filters:', apiParams, 'Error:', error);
+                navigate('/signin');
             });
     };
 
