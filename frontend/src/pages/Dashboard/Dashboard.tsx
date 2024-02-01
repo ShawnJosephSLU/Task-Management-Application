@@ -47,39 +47,29 @@ const Dashboard = () => {
     }, []);
 
     const handleApplyFilters = (filtersFromChild: { priorityLevel: string; status: string; user: string; }) => {
-        // Check if all filter parameters are empty
-        const areFiltersEmpty = !filtersFromChild.priorityLevel && !filtersFromChild.status && !filtersFromChild.user;
+        const apiParams = {
+            priorityLevel: filtersFromChild.priorityLevel,
+            status: filtersFromChild.status,
+            'assignee.userId': filtersFromChild.user, 
+        };
     
-        // If all filters are empty, make a default API call without filters
-        if (areFiltersEmpty) {
-            axios.get(API_URL_TASK)
-                .then(res => {
-                    console.log('Data fetched without filters:', res.data);
-                    setTasks(res.data); // Update the state with the fetched data
-                })
-                .catch(error => {
-                    console.error('There was an error fetching tasks without filters:', error);
-                });
-        } 
-        else {
-            // Transform the received filters to match the API's expected format
-            const apiParams = {
-                priorityLevel: filtersFromChild.priorityLevel,
-                status: filtersFromChild.status,
-                'assignee.userId': filtersFromChild.user, // Transform 'user' to 'assignee.userId'
-            };
+        const queryString = Object.entries(apiParams)
+            .filter(([, value]) => value) // filter out empty parameters
+            .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+            .join('&');
     
-            // Use transformed filters for the API call
-            axios.get(API_URL_TASK, { params: apiParams })
-                .then(res => {
-                    console.log('Data fetched with filters:', apiParams);
-                    console.log('Response data:', res.data);
-                    setTasks(res.data); // Update the state with the fetched data
-                })
-                .catch(error => {
-                    console.error('There was an error fetching the tasks with filters:', apiParams, 'Error:', error);
-                });
-        }
+        const requestUrl = `${API_URL_TASK}?${queryString}`;
+
+       
+        axios.get(requestUrl)  //make filtered the request
+            .then(res => {
+                console.log('Data fetched with filters:', apiParams);
+                console.log('Response data:', res.data);
+                setTasks(res.data); // update the state with the fetched data
+            })
+            .catch(error => {
+                console.error('There was an error fetching the tasks with filters:', apiParams, 'Error:', error);
+            });
     };
     
     
