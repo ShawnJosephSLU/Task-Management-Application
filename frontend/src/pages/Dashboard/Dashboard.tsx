@@ -121,11 +121,34 @@ const Dashboard = () => {
         if (!sortConfig) {
             return tasks;
         }
-
+    
+        
+        const priorityValue = (priorityLevel: string) => {// map priority to numbers for sorting
+            switch(priorityLevel) {
+                case 'High': return 3;
+                case 'Medium': return 2;
+                case 'Low': return 1;
+                default: return 0;
+            }
+        };
+    
         return [...tasks].sort((a, b) => {
-            const aValue = sortConfig.key === 'assignee' ? a.assignee?.displayName ?? '' : a[sortConfig.key];
-            const bValue = sortConfig.key === 'assignee' ? b.assignee?.displayName ?? '' : b[sortConfig.key];
-
+            let aValue, bValue;
+    
+            if (sortConfig.key === 'priorityLevel') {
+                
+                aValue = priorityValue(a.priorityLevel); // Use the mapped values for sorting when the key is 'priorityLevel'
+                bValue = priorityValue(b.priorityLevel);
+            } else if (sortConfig.key === 'assignee') {
+                
+                aValue = a.assignee?.displayName ?? ''; // sorting by assignee's displayName
+                bValue = b.assignee?.displayName ?? '';
+            } else {
+                
+                aValue = a[sortConfig.key];
+                bValue = b[sortConfig.key];
+            }
+    
             if (aValue < bValue) {
                 return sortConfig.direction === 'asc' ? -1 : 1;
             }
@@ -135,6 +158,7 @@ const Dashboard = () => {
             return 0;
         });
     }, [tasks, sortConfig]);
+    
 
 
     const homeContentStyle = {

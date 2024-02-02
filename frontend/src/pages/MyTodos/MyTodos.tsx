@@ -50,17 +50,17 @@ const MyCreatedTasks = () => {
                     'Authorization': `Bearer ${token}` // use token in Authorization header
                 }
             })
-            .then(res => setTasks(res.data))
-            .catch(error => {
-                console.error('There was an error!', error);
-            });
+                .then(res => setTasks(res.data))
+                .catch(error => {
+                    console.error('There was an error!', error);
+                });
         } else {
             console.error('No token found in local storage.');
             navigate('/signin');
         }
     }, [userId]); // Added userId as a dependency to the effect
 
-    
+
 
     const handleApplyFilters = (filtersFromChild: { priorityLevel: string; status: string; user?: string; }) => {
         if (!userId) {
@@ -68,7 +68,7 @@ const MyCreatedTasks = () => {
             navigate('/signin');
             return;
         }
-    
+
         const apiParams = {
             'assignee.userId': userId, // Include the userId in the API request
             priorityLevel: filtersFromChild.priorityLevel,
@@ -92,7 +92,7 @@ const MyCreatedTasks = () => {
                 console.log('Data fetched with filters:', apiParams);
                 console.log('Response data:', res.data);
                 console.log('User Display name', displayName);
-                console.log('User Id' ,userId);
+                console.log('User Id', userId);
 
                 setTasks(res.data); // update the state with the fetched data
             })
@@ -132,9 +132,32 @@ const MyCreatedTasks = () => {
             return tasks;
         }
 
+
+        const priorityValue = (priorityLevel: string) => {// map priority to numbers for sorting
+            switch (priorityLevel) {
+                case 'High': return 3;
+                case 'Medium': return 2;
+                case 'Low': return 1;
+                default: return 0;
+            }
+        };
+
         return [...tasks].sort((a, b) => {
-            const aValue = sortConfig.key === 'assignee' ? a.assignee?.displayName ?? '' : a[sortConfig.key];
-            const bValue = sortConfig.key === 'assignee' ? b.assignee?.displayName ?? '' : b[sortConfig.key];
+            let aValue, bValue;
+
+            if (sortConfig.key === 'priorityLevel') {
+
+                aValue = priorityValue(a.priorityLevel); // Use the mapped values for sorting when the key is 'priorityLevel'
+                bValue = priorityValue(b.priorityLevel);
+            } else if (sortConfig.key === 'assignee') {
+
+                aValue = a.assignee?.displayName ?? ''; // sorting by assignee's displayName
+                bValue = b.assignee?.displayName ?? '';
+            } else {
+
+                aValue = a[sortConfig.key];
+                bValue = b[sortConfig.key];
+            }
 
             if (aValue < bValue) {
                 return sortConfig.direction === 'asc' ? -1 : 1;
@@ -163,7 +186,7 @@ const MyCreatedTasks = () => {
     return (
         <>
             <Header />
-            
+
             <div style={homeContentStyle}>
                 <Toolbar style={topBarStyle}>
                     <Typography variant="h5" style={{ fontFamily: "monospace" }}>MY TODO LIST</Typography>
@@ -203,15 +226,7 @@ const MyCreatedTasks = () => {
                                         Due Date
                                     </TableSortLabel>
                                 </TableCell>
-                                <TableCell style={{ width: '200px' }}>
-                                    <TableSortLabel
-                                        active={sortConfig?.key === 'assignee'}
-                                        direction={sortConfig?.direction || 'asc'}
-                                        onClick={() => handleSort('assignee')}
-                                    >
-                                        Assignee
-                                    </TableSortLabel>
-                                </TableCell>
+                                <TableCell style={{ width: '200px' }}>Assignee</TableCell>
                                 <TableCell style={{ width: '160px' }}>
                                     <TableSortLabel
                                         active={sortConfig?.key === 'priorityLevel'}
