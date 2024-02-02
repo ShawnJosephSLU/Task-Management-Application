@@ -62,13 +62,18 @@ const MyCreatedTasks = () => {
 
     
 
-    const handleApplyFilters = (filtersFromChild: { priorityLevel: string; status: string; }) => {
+    const handleApplyFilters = (filtersFromChild: { priorityLevel: string; status: string; user?: string; }) => {
+        if (!userId) {
+            console.error('User ID is null. Cannot fetch tasks.');
+            navigate('/signin');
+            return;
+        }
+    
         const apiParams = {
+            'assignee.userId': userId, // Include the userId in the API request
             priorityLevel: filtersFromChild.priorityLevel,
             status: filtersFromChild.status,
-            
         };
-
         const queryString = Object.entries(apiParams)
             .filter(([, value]) => value) // filter out empty parameters
             .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
