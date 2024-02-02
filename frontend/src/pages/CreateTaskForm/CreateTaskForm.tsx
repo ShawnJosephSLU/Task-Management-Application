@@ -19,12 +19,12 @@ const CreateTaskForm = () => {
 
     const [users, setUsers] = useState<User[]>([]);
     const [priorityLevels, setPriorityLevels] = useState('Medium');
-    const currentDate = new Date();
+    const currentDate =new Date().toISOString().split('T')[0];
 
     const [newTask, setNewTask] = useState({
         title: "",
         description: "",
-        dueDate: currentDate.toLocaleDateString('en-US'),
+        dueDate: currentDate,
         priorityLevel: "Medium",
         assignee: { userId: "", displayName: "" },
         notes: "",
@@ -122,6 +122,8 @@ const CreateTaskForm = () => {
                             name="dueDate"
                             onChange={handleChange}
                             margin="normal"
+                            inputProps={{min : currentDate}}
+                            
                         />
                         <Autocomplete
                             disablePortal
