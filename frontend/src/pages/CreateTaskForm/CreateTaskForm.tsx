@@ -1,8 +1,8 @@
-import { Autocomplete, Button, Card, Grid, MenuItem, Select, SelectChangeEvent, TextField, Typography } from "@mui/material";
+import { Autocomplete, Button, Card, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography } from "@mui/material";
 import Header from "../../components/Header/Header";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import {useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 const API_URL_USER: string = "http://localhost:3333/user/displayNames";
@@ -19,7 +19,7 @@ const CreateTaskForm = () => {
 
     const [users, setUsers] = useState<User[]>([]);
     const [priorityLevels, setPriorityLevels] = useState('Medium');
-    const currentDate =new Date().toISOString().split('T')[0];
+    const currentDate = new Date().toISOString().split('T')[0];
 
     const [newTask, setNewTask] = useState({
         title: "",
@@ -73,21 +73,21 @@ const CreateTaskForm = () => {
             navigate('/signin');
             return;
         }
-    
+
         axios.post(API_URL_TASK, newTask, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         })
-        .then(response => {
-            console.log(response);
-            navigate('/dashboard');
-        })
-        .catch(error => {
-            console.error('There was an error submitting the task', error);
-        });
+            .then(response => {
+                console.log(response);
+                navigate('/dashboard');
+            })
+            .catch(error => {
+                console.error('There was an error submitting the task', error);
+            });
     };
-    
+
 
     return (
         <>
@@ -122,8 +122,8 @@ const CreateTaskForm = () => {
                             name="dueDate"
                             onChange={handleChange}
                             margin="normal"
-                            inputProps={{min : currentDate}}
-                            
+                            inputProps={{ min: currentDate }}
+
                         />
                         <Autocomplete
                             disablePortal
@@ -134,19 +134,24 @@ const CreateTaskForm = () => {
                             sx={{ width: '100%', marginTop: 2 }}
                             renderInput={(params) => <TextField {...params} label="Assignee" />}
                         />
-                        <Select
-                            fullWidth
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={priorityLevels}
-                            label="Priority Level"
-                            onChange={handlePriorityChange}
-                            sx={{ marginTop: 2 }}
-                        >
-                            <MenuItem value={"Low"}>Low</MenuItem>
-                            <MenuItem value={"Medium"}>Medium</MenuItem>
-                            <MenuItem value={"High"}>High</MenuItem>
-                        </Select>
+                        <FormControl fullWidth sx={{ marginTop: 4 }}>
+                            
+                        <InputLabel id="demo-simple-select-autowidth-label">Priority Level</InputLabel>
+                            <Select
+                                fullWidth
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                value={priorityLevels}
+                                label="Priority Level"
+                                onChange={handlePriorityChange}
+                                
+                            >
+                                <MenuItem value={"Low"}>Low</MenuItem>
+                                <MenuItem value={"Medium"}>Medium</MenuItem>
+                                <MenuItem value={"High"}>High</MenuItem>
+                            </Select>
+                        </FormControl>
+
                         <TextField
                             fullWidth
                             id="outlined-multiline-static"
@@ -156,6 +161,7 @@ const CreateTaskForm = () => {
                             rows={4}
                             margin="normal"
                             onChange={handleChange}
+                            sx={{ marginTop: 3 }}
                         />
                         <Grid container spacing={2} justifyContent="center" sx={{ marginTop: 2 }}>
                             <Grid item>
