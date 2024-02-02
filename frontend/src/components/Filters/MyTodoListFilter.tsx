@@ -1,6 +1,6 @@
 //filter 
 
-import { useState} from 'react';
+import { useState } from 'react';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
@@ -15,6 +15,7 @@ import { FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from '@m
 interface FilterProps {
     onApplyFilters: (filters: { priorityLevel: string; status: string; user: string; }) => void;
 }
+
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
         padding: theme.spacing(2),
@@ -31,8 +32,7 @@ const MyTodoListFilter: React.FC<FilterProps> = ({ onApplyFilters }) => {
         status: '',
         user: '',
     });
-
-
+    
     const handleClickOpen = () => {
         setOpen(true);
     };

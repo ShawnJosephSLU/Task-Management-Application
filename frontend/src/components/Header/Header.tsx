@@ -36,7 +36,8 @@ const Header = () => {
                     <Button onClick={navigateToDashboard} style={{ color: '#ffffff' }}>Home</Button>
                     <Button onClick={navigateToMyTasks} style={{ color: '#ffffff' }}>My Tasks</Button>
                     <Button onClick={navigateToNewTaskForm} style={{ color: '#ffffff' }}>Create New Task</Button>
-                    
+                    <Button onClick={navigateToNewTaskForm} style={{ color: '#ffffff' }}>Notifications</Button>
+
                 </div>
 
                 <Button onClick={handleSignOut} style={{ color: '#ffffff' }}>Sign Out</Button>
