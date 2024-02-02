@@ -67,28 +67,27 @@ const CreateTaskForm = () => {
     };
 
     const handleSubmit = () => {
-
-        // Checks if any required fields are empty
-        if (!newTask.title || !newTask.description || !newTask.dueDate || !newTask.assignee) {
-            alert("All fields must be filled");
-            return; // Prevents the function from proceeding further
+        const token = localStorage.getItem('authToken');
+        if (!token) {
+            console.error('No token found in local storage.');
+            navigate('/signin');
+            return;
         }
-
-
-        axios.post(API_URL_TASK, newTask) // If validation passes, proceed to making  the post request
-            .then(response => {
-                console.log('Task Created:', response.data);
-                navigate('/dashboard'); // Navigate to the dashboard
-            })
-            .catch(error => {
-                console.error('Error Response:', error.response);
-                console.error('Error Data:', error.response.data);
-            });
-
-        console.log("Submitting task:", newTask);
-
+    
+        axios.post(API_URL_TASK, newTask, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(response => {
+            console.log(response);
+            navigate('/dashboard');
+        })
+        .catch(error => {
+            console.error('There was an error submitting the task', error);
+        });
     };
-
+    
 
     return (
         <>

@@ -23,7 +23,7 @@ function App() {
           <Route path="/signin" element={<UserSignInForm />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/signup" element={<NewUserForm />} />
-          <Route path="/create-task" element={<ProtectedRoute><CreateTaskForm /></ProtectedRoute>} />
+          <Route path="/create-task" element={<CreateTaskForm />} />
           <Route path="/edit-task" element={<ProtectedRoute><EditTaskForm /></ProtectedRoute>} />
           <Route path="/mytasks" element={<MyCreatedTasks />} />
         </Routes>
