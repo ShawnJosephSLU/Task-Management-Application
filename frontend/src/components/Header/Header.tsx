@@ -34,8 +34,9 @@ const Header = () => {
 
                 <div style={{ display: 'flex', justifyContent: 'center', flexGrow: 1 }}>
                     <Button onClick={navigateToDashboard} style={{ color: '#ffffff' }}>Home</Button>
-                    <Button onClick={navigateToMyTasks} style={{ color: '#ffffff' }}>My Created Tasks</Button>
+                    <Button onClick={navigateToMyTasks} style={{ color: '#ffffff' }}>My Tasks</Button>
                     <Button onClick={navigateToNewTaskForm} style={{ color: '#ffffff' }}>Create New Task</Button>
+                    
                 </div>
 
                 <Button onClick={handleSignOut} style={{ color: '#ffffff' }}>Sign Out</Button>
