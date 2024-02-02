@@ -15,7 +15,7 @@ import {
     TableSortLabel
 } from "@mui/material";
 import Header from "../../components/Header/Header";
-import Filter from '../../components/Filter/filter';
+import Filter from '../../components/Filters/DashboardFilter';
 import { useNavigate } from 'react-router-dom';
 
 const API_URL_TASK: string = "http://localhost:3333/task"; // TODO: Store this in .env file

@@ -1,4 +1,4 @@
-// MyCreatedTasks
+// My Todos
 
 import { useEffect, useState, useMemo } from 'react';
 import axios from 'axios';
@@ -15,8 +15,8 @@ import {
     TableSortLabel
 } from "@mui/material";
 import Header from "../../components/Header/Header";
-import Filter from '../../components/Filter/filter';
 import { useNavigate } from 'react-router-dom';
+import MyToDoListFilter from '../../components/Filters/MyTodoListFilter';
 
 const API_URL_TASK: string = "http://localhost:3333/task"; // TODO: Store this in .env file
 
@@ -40,11 +40,12 @@ const MyCreatedTasks = () => {
     const [sortConfig, setSortConfig] = useState<{ key: SortableTaskKeys, direction: 'asc' | 'desc' } | null>(null);
 
     const navigate = useNavigate();
-
+    const userId = localStorage.getItem('_id');
     useEffect(() => {
         const token = localStorage.getItem('authToken'); // retrieve token from local storage
         if (token) {
-            axios.get(API_URL_TASK, {
+            const requestUrl = `${API_URL_TASK}?assignee.userId=${userId}`; // Update the request URL to filter by assignee's user ID
+            axios.get(requestUrl, {
                 headers: {
                     'Authorization': `Bearer ${token}` // use token in Authorization header
                 }
@@ -55,15 +56,17 @@ const MyCreatedTasks = () => {
             });
         } else {
             console.error('No token found in local storage.');
+            navigate('/signin');
         }
-    }, []);
+    }, [userId]); // Added userId as a dependency to the effect
+
     
 
-    const handleApplyFilters = (filtersFromChild: { priorityLevel: string; status: string; user: string; }) => {
+    const handleApplyFilters = (filtersFromChild: { priorityLevel: string; status: string; }) => {
         const apiParams = {
             priorityLevel: filtersFromChild.priorityLevel,
             status: filtersFromChild.status,
-            'assignee.userId': filtersFromChild.user,
+            
         };
 
         const queryString = Object.entries(apiParams)
@@ -72,7 +75,7 @@ const MyCreatedTasks = () => {
             .join('&');
 
         const requestUrl = `${API_URL_TASK}?${queryString}`;
-        const token = localStorage.getItem('authToken'); // Retrieve token from local storage
+        const token = localStorage.getItem('authToken'); // get token from local storage
         const displayName = localStorage.getItem('displayName'); // get displayName from local storage
 
         axios.get(requestUrl, {
@@ -83,7 +86,9 @@ const MyCreatedTasks = () => {
             .then(res => {
                 console.log('Data fetched with filters:', apiParams);
                 console.log('Response data:', res.data);
-                console.log(displayName);
+                console.log('User Display name', displayName);
+                console.log('User Id' ,userId);
+
                 setTasks(res.data); // update the state with the fetched data
             })
             .catch(error => {
@@ -157,7 +162,7 @@ const MyCreatedTasks = () => {
             <div style={homeContentStyle}>
                 <Toolbar style={topBarStyle}>
                     <Typography variant="h5" style={{ fontFamily: "monospace" }}>MY TODO LIST</Typography>
-                    <Filter onApplyFilters={handleApplyFilters} />
+                    <MyToDoListFilter onApplyFilters={handleApplyFilters} />
                 </Toolbar>
 
                 <TableContainer>
