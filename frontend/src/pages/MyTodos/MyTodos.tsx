@@ -12,7 +12,8 @@ import {
     TableRow,
     Toolbar,
     Typography,
-    TableSortLabel
+    TableSortLabel,
+    Button
 } from "@mui/material";
 import Header from "../../components/Header/Header";
 import { useNavigate } from 'react-router-dom';
@@ -126,6 +127,12 @@ const MyCreatedTasks = () => {
         }
         setSortConfig({ key, direction });
     };
+
+    const handleEditButton = (/** This should hold the id of the task to navigate to it */) => {
+
+        // navigate to edit page 
+        navigate('/edit-task');
+    }
 
     const sortedTasks = useMemo(() => {
         if (!sortConfig) {
@@ -246,6 +253,7 @@ const MyCreatedTasks = () => {
                                         Status
                                     </TableSortLabel>
                                 </TableCell>
+                                <TableCell style={{ width: '100px' }}>Edit</TableCell>
                             </TableRow>
 
                         </TableHead>
@@ -260,6 +268,7 @@ const MyCreatedTasks = () => {
                                     <TableCell>{task.priorityLevel}</TableCell>
                                     <TableCell>{(task.notes || []).join(', ')}</TableCell>
                                     <TableCell>{task.status}</TableCell>
+                                    <TableCell><Button onClick={handleEditButton}> Edit </Button></TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
