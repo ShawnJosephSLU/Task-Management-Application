@@ -1,7 +1,6 @@
 //filter 
 
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState} from 'react';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
@@ -12,16 +11,10 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from '@mui/material';
 
-interface User {
-    id: string;
-    displayName: string;
-}
 
 interface FilterProps {
     onApplyFilters: (filters: { priorityLevel: string; status: string; user: string; }) => void;
 }
-const API_URL_USER = "http://localhost:3333/user/displayNames";
-
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
         padding: theme.spacing(2),
@@ -38,19 +31,7 @@ const MyTodoListFilter: React.FC<FilterProps> = ({ onApplyFilters }) => {
         status: '',
         user: '',
     });
-    const [users, setUsers] = useState<User[]>([]);
 
-    
-
-    useEffect(() => {
-        axios.get(API_URL_USER)
-            .then(response => {
-                setUsers(response.data); 
-            })
-            .catch(error => {
-                console.error('There was an error fetching the users!', error);
-            });
-    }, []);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -132,18 +113,6 @@ const MyTodoListFilter: React.FC<FilterProps> = ({ onApplyFilters }) => {
                             <MenuItem value="completed">Completed</MenuItem>
                             <MenuItem value="in progress">In Progress</MenuItem>
                             <MenuItem value="canceled">Canceled</MenuItem>
-                        </Select>
-                    </FormControl>
-                    <FormControl fullWidth margin="normal">
-                        <InputLabel>User</InputLabel>
-                        <Select
-                            value={filters.user}
-                            label="User"
-                            onChange={handleChange('user')}
-                        >
-                            {users.map((user) => (
-                                <MenuItem key={user.id} value={user.id}>{user.displayName}</MenuItem>
-                            ))}
                         </Select>
                     </FormControl>
                 </DialogContent>
