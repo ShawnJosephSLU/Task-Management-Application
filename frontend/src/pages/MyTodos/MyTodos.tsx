@@ -46,6 +46,14 @@ const MyCreatedTasks = () => {
     const userId = localStorage.getItem('_id');
     useEffect(() => {
         const token = localStorage.getItem('authToken'); // retrieve token from local storage
+
+  
+    if (!token) {
+        // Check if the token does not exist
+  
+        navigate("/signin"); // if the token is not there , navigate
+      }
+
         if (token) {
             const requestUrl = `${API_URL_TASK}?assignee.userId=${userId}`; // Update the request URL to filter by assignee's user ID
             axios.get(requestUrl, {

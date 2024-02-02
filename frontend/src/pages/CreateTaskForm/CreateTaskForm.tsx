@@ -31,6 +31,14 @@ const CreateTaskForm = () => {
     });
 
     useEffect(() => {
+    const token = localStorage.getItem("authToken");
+  
+    if (!token) {
+        // Check if the token does not exist
+  
+        navigate("/signin"); // if the token is not there , navigate
+      }
+
         axios.get(API_URL_USER)
             .then(res => {
                 setUsers(res.data);

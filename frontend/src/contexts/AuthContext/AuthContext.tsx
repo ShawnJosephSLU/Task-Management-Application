@@ -7,7 +7,6 @@ interface AuthContextType {
 }
 
 interface User {
-  // Define the user properties you need, e.g., id, username
   id: string;
   username: string;
 }

@@ -105,6 +105,12 @@ const EditTask: React.FC = () => {
     };
 
     useEffect(() => {
+        
+    if (!token) {
+      // Check if the token does not exist
+
+      navigate("/signin"); // if the token is not there , navigate
+    }
         const fetchUsers = async () => {
             try {
                 const response = await axios.get(API_URL_USER);
@@ -195,7 +201,6 @@ const EditTask: React.FC = () => {
                         options={users}
                         getOptionLabel={(option) => option.displayName}
                         onChange={handleAssigneeChange}
-                       // value={newTask.assignee}
                         renderInput={(params) => <TextField {...params} label="Assignee" margin="normal" />}
                     />
                     <FormControl fullWidth margin="normal">

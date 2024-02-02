@@ -19,8 +19,8 @@ const Header = () => {
     };
 
     const handleSignOut = () => { // handles the user sign out
-
-        //TODO: Sign user out successfully before navigating away
+        
+        localStorage.removeItem('authToken'); // deletes the auth token
         navigate('/signin');
     };
 

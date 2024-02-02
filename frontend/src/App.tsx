@@ -7,7 +7,6 @@ import EditTaskForm from './pages/EditTaskForm/EditTaskForm';
 import { AuthProvider } from './contexts/AuthContext/AuthContext';
 import Dashboard from './pages/Dashboard/Dashboard';
 import UserSignInForm from './pages/UserSignInForm/UserSignInForm';
-import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 
 
 function App() {
@@ -24,9 +23,6 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/signup" element={<NewUserForm />} />
           <Route path="/create-task" element={<CreateTaskForm />} />
-          {
-            /*<Route path="/edit-task" element={<ProtectedRoute><EditTaskForm /></ProtectedRoute>} />*/
-          }
           <Route path="/edit-task" element={<EditTaskForm />} />
           <Route path="/mytasks" element={<MyCreatedTasks />} />
         </Routes>
