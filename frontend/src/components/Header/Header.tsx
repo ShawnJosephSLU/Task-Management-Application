@@ -19,7 +19,7 @@ const Header = () => {
     };
 
     const handleSignOut = () => { // handles the user sign out
-        
+
         localStorage.removeItem('authToken'); // deletes the auth token
         navigate('/signin');
     };
@@ -36,7 +36,6 @@ const Header = () => {
                     <Button onClick={navigateToDashboard} style={{ color: '#ffffff' }}>Home</Button>
                     <Button onClick={navigateToMyTasks} style={{ color: '#ffffff' }}>My Tasks</Button>
                     <Button onClick={navigateToNewTaskForm} style={{ color: '#ffffff' }}>Create New Task</Button>
-                    <Button onClick={navigateToNewTaskForm} style={{ color: '#ffffff' }}>Notifications</Button>
 
                 </div>
 
