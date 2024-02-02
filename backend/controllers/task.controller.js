@@ -35,7 +35,7 @@ const getFilteredTasks = async (req, res, next) => {
         let filter = {...req.query}; // extract filter from query parameters
 
         if (filter['assignee.userId']) { 
-            // Convert 'assignee.userId' from string to ObjectId, keeping other filters as is
+            
             filter['assignee.userId'] = new mongoose.Types.ObjectId(filter['assignee.userId']);
         }
         
@@ -56,5 +56,37 @@ const getFilteredTasks = async (req, res, next) => {
     }
 };
 
+const updateTask = async (req, res) => { // update a single task
+    try {
+        const { taskId } = req.params; 
+        const updateData = req.body;
 
-module.exports = { createNewTask, getFilteredTasks };
+        const updatedTask = await Task.findByIdAndUpdate(taskId, updateData, { new: true });
+        if (!updatedTask) {
+            return res.status(404).json({ message: 'Task not found' });
+        }
+
+        res.status(200).json({ message: 'Task updated successfully', task: updatedTask });
+    } catch (error) {
+        res.status(500).json({ message: 'Error updating task', error: error.message });
+    }
+};
+
+
+const getTaskById = async (req, res) => {
+    try {
+        const { taskId } = req.params; // extract the task ID from the route parameters
+        const task = await Task.findById(taskId); // use Mongoose's findById method
+
+        if (!task) {
+            return res.status(404).json({ message: 'Task not found' });
+        }
+
+        res.status(200).json(task); // return the found task
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching task', error: error.message });
+    }
+};
+
+
+module.exports = { createNewTask, getFilteredTasks, updateTask,  getTaskById};

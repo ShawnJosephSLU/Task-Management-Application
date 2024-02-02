@@ -22,17 +22,19 @@ import MyToDoListFilter from '../../components/Filters/MyTodoListFilter';
 const API_URL_TASK: string = "http://localhost:3333/task"; // TODO: Store this in .env file
 
 interface Task {
-    id: string;
+    _id: string;
     title: string;
     description: string;
     dueDate: string;
     assignee: {
-        displayName: string;
+      userId: string;
+      displayName: string;
     };
     priorityLevel: string;
     notes: string[];
     status: string;
-}
+  }
+  
 
 type SortableTaskKeys = keyof Pick<Task, 'title' | 'description' | 'dueDate' | 'priorityLevel' | 'status' | 'assignee'>;
 
@@ -128,11 +130,18 @@ const MyCreatedTasks = () => {
         setSortConfig({ key, direction });
     };
 
-    const handleEditButton = (/** This should hold the id of the task to navigate to it */) => {
-
-        // navigate to edit page 
-        navigate('/edit-task');
-    }
+    const handleEditButton = (taskId: string): void => {
+        const task = tasks.find((task: Task) => task._id === taskId);
+      
+        if (task) {
+          
+          localStorage.setItem('taskId', taskId); //save the edited task in local storage
+          navigate(`/edit-task`);
+        } else {
+          console.error('Task not found');
+        }
+      };
+      
 
     const sortedTasks = useMemo(() => {
         if (!sortConfig) {
@@ -268,7 +277,9 @@ const MyCreatedTasks = () => {
                                     <TableCell>{task.priorityLevel}</TableCell>
                                     <TableCell>{(task.notes || []).join(', ')}</TableCell>
                                     <TableCell>{task.status}</TableCell>
-                                    <TableCell><Button onClick={handleEditButton}> Edit </Button></TableCell>
+                                    <TableCell>
+                                        <Button onClick={() => handleEditButton(task._id)}> Edit </Button>
+                                    </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
