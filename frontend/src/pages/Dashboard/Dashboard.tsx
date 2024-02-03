@@ -18,6 +18,7 @@ import {
 import Header from "../../components/Header/Header";
 import Filter from "../../components/Filters/DashboardFilter";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 const API_URL_TASK: string = "http://localhost:3333/task"; // TODO: Store this in .env file
 
@@ -33,6 +34,10 @@ interface Task {
     notes: string[];
     status: string;
 }
+
+interface DecodedToken {
+    exp?: number; 
+  }
 
 type SortableTaskKeys = keyof Pick<
     Task,
@@ -56,12 +61,35 @@ const Dashboard = () => {
     useEffect(() => {
         const token = localStorage.getItem("authToken");
 
+        const isTokenExpired = (token: string): boolean => {
+            try {
+              // Explicitly type the decoded token
+              const decoded: DecodedToken = jwtDecode(token);
+              if (typeof decoded.exp === 'undefined') {
+                // Handle the case where exp is undefined
+                console.error("Token does not have an expiration time.");
+                return true; // Assume the token is expired or invalid
+              }
+              const currentTime = Date.now() / 1000; // Convert to seconds
+              return decoded.exp < currentTime;
+            } catch (error) {
+              console.error("Failed to decode token", error);
+              return true; // Assume invalid token
+            }
+          };
+
+
         if (!token) {
             // Check if the token does not exist
 
             navigate("/signin"); // if the token is not there , navigate
         }
         if (token) {
+
+          if(isTokenExpired(token)) {// deletes the auth token if the token is expired
+            localStorage.removeItem('authToken'); 
+            navigate('/signin');
+        }
             axios
                 .get(API_URL_TASK, {
                     headers: {
@@ -75,8 +103,12 @@ const Dashboard = () => {
         } else {
             console.error("No token found in local storage.");
         }
+
+       
     }, []);
 
+
+   
     const handleApplyFilters = (filtersFromChild: {
         priorityLevel: string;
         status: string;

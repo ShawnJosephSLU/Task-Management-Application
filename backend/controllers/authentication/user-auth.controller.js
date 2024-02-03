@@ -34,7 +34,7 @@ const signInUser = async (req, res, next) => {
             // Generate JSON Web token
             { userId: user._id, username: user.username },
             process.env.JWT_SECRET_KEY,
-            { expiresIn: "3h" }
+            { expiresIn: "336h" } // the token will die after 14 days
         );
 
         console.log("Generated Token:", token); // Log token details
@@ -43,7 +43,7 @@ const signInUser = async (req, res, next) => {
             // Successful login, send token to the client
             message: "Authentication successful",
             token: token,
-            expiresIn: 10800, // 3 hrs in seconds
+            expiresIn: 1209600, //14 days in seconds
             user: {
                 _id: user._id,
                 displayName: user.displayName,
