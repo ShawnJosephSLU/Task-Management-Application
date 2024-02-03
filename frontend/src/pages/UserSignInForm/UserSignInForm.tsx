@@ -68,8 +68,8 @@ const UserSignInForm = () => {
             setErrorMessage(""); // Clear any error messages on successful login
         } catch (error: any) {
             if (error.response) {
-                // If the server sends a response with an error
-                setErrorMessage("Incorrect username or password");
+                
+                setErrorMessage("Incorrect username or password");// If the server sends a response with an error
             } else {
                 // For other errors like network errors, etc.
                 setErrorMessage("An error occurred. Please try again later.");
@@ -116,7 +116,7 @@ const UserSignInForm = () => {
                                 </Typography>
                             )}
                             <TextField
-                                name="email" // The name attribute corresponds to the state keys
+                                name="email"
                                 value={credentials.email}
                                 onChange={handleChange}
                                 fullWidth
@@ -133,7 +133,7 @@ const UserSignInForm = () => {
                             />
 
                             <TextField
-                                name="password" // The name attribute corresponds to the state keys
+                                name="password" 
                                 value={credentials.password}
                                 onChange={handleChange}
                                 fullWidth

@@ -27,6 +27,7 @@ interface User {
 const CreateTaskForm = () => {
     const navigate = useNavigate();
 
+    const [errorMessage, setErrorMessage] = useState("");
     const [users, setUsers] = useState<User[]>([]);
     const [priorityLevels, setPriorityLevels] = useState("Medium");
     const currentDate = new Date().toISOString().split("T")[0];
@@ -92,6 +93,10 @@ const CreateTaskForm = () => {
             return;
         }
 
+        if (!newTask.title || !newTask.description || !newTask.dueDate || !newTask.assignee.displayName || !newTask.priorityLevel) {
+            setErrorMessage("All fields must be filled");
+            return; // Stop the sign-in process if fields are empty
+        }
         axios
             .post(API_URL_TASK, newTask, {
                 headers: {
@@ -126,6 +131,16 @@ const CreateTaskForm = () => {
                         >
                             Create A New Task
                         </Typography>
+
+                        {errorMessage && (
+                                <Typography
+                                    color="error"
+                                    textAlign="center"
+                                    style={{ marginTop: "10px" }}
+                                >
+                                    {errorMessage}
+                                </Typography>
+                            )}
 
                         <TextField
                             fullWidth
