@@ -360,7 +360,7 @@ const MyCreatedTasks = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {sortedTasks.map((task, index) => (
+                            {[...sortedTasks].reverse().map((task, index) =>  (
                                 <TableRow
                                     key={index}
                                     style={{
