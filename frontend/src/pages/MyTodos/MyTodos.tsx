@@ -222,7 +222,7 @@ const MyCreatedTasks = () => {
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell style={{ width: '40px' }}>ID</TableCell>
+                                <TableCell style={{ width: '40px' }}></TableCell>
                                 <TableCell style={{ width: '200px' }}>
                                     <TableSortLabel
                                         active={sortConfig?.key === 'title'}
