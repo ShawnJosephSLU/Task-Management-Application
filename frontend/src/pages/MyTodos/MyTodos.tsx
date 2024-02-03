@@ -20,6 +20,7 @@ import { useNavigate } from 'react-router-dom';
 import MyToDoListFilter from '../../components/Filters/MyTodoListFilter';
 
 const API_URL_TASK: string = "http://localhost:3333/task"; // TODO: Store this in .env file
+   
 
 interface Task {
     _id: string;
@@ -150,6 +151,34 @@ const MyCreatedTasks = () => {
         }
       };
       
+      const handleDeleteTask = (taskId: string): void => {
+        console.log(taskId);
+    
+        // Ensure the taskUrl is constructed with the correct taskId for each delete request
+        const taskUrl = `${API_URL_TASK}/${taskId}`; // Moved inside the function
+    
+        const token = localStorage.getItem('authToken');
+        if (!token) {
+            console.error('No token found in local storage.');
+            navigate('/signin');
+            return;
+        }
+    
+        axios.delete(taskUrl, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(response => {
+                console.log(response);
+                setTasks(prevTasks => prevTasks.filter(task => task._id !== taskId));
+                navigate('/mytasks');
+            })
+            .catch(error => {
+                console.error('There was an error deleting the task', error);
+            });
+    };
+    
 
     const sortedTasks = useMemo(() => {
         if (!sortConfig) {
@@ -290,7 +319,7 @@ const MyCreatedTasks = () => {
                                         <Button onClick={() => handleEditButton(task._id)}> Edit </Button>
                                     </TableCell>
                                     <TableCell>
-                                        <Button onClick={() => handleEditButton(task._id)}> Delete </Button>
+                                        <Button onClick={() => handleDeleteTask(task._id)}> Delete </Button>
                                     </TableCell>
                                 </TableRow>
                             ))}
