@@ -270,7 +270,8 @@ const MyCreatedTasks = () => {
                                         Status
                                     </TableSortLabel>
                                 </TableCell>
-                                <TableCell style={{ width: '100px' }}>Edit</TableCell>
+                                <TableCell style={{ width: '100px' }}></TableCell>
+                                <TableCell style={{ width: '100px' }}></TableCell>
                             </TableRow>
 
                         </TableHead>
@@ -287,6 +288,9 @@ const MyCreatedTasks = () => {
                                     <TableCell>{task.status}</TableCell>
                                     <TableCell>
                                         <Button onClick={() => handleEditButton(task._id)}> Edit </Button>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Button onClick={() => handleEditButton(task._id)}> Delete </Button>
                                     </TableCell>
                                 </TableRow>
                             ))}

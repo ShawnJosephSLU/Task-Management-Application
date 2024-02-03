@@ -21,7 +21,7 @@ const createNewUsers = async (req, res) => {
             user: newUser
         });
     } catch (error) {
-        // ... Error handling ...
+        console.log(error);
     }
 }
 
@@ -30,7 +30,7 @@ const getAllUsers = async (req, res, next) => {
         const users = await User.find(); 
         res.status(200).json(users);
     } catch (error) {
-        // ... Error handling ...
+        console.log(error)
     }
 }
 
@@ -45,7 +45,6 @@ const getAllUserNames = async (req, res, next) => {
         });
         res.status(200).json(userDisplayNames);
     } catch (error) {
-        // ... Error handling ...
         res.status(500).send('An error occurred');
     }
 }
