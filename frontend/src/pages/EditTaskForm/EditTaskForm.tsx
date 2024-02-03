@@ -142,7 +142,7 @@ const EditTask: React.FC = () => {
             try {
                 const response = await axios.get(taskUrl, {
                     headers: {
-                        Authorization: `Bearer ${token}`, // Correctly include the token in the Authorization header
+                        Authorization: `Bearer ${token}`, //include the token in the Authorization header
                     },
                 });
 

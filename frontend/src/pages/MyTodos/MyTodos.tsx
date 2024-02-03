@@ -21,7 +21,7 @@ import Header from "../../components/Header/Header";
 import { useNavigate } from "react-router-dom";
 import MyToDoListFilter from "../../components/Filters/MyTodoListFilter";
 
-const API_URL_TASK: string = "http://localhost:3333/task"; // TODO: Store this in .env file
+const API_URL_TASK: string = "http://localhost:3333/task"; 
 
 interface Task {
     _id: string;

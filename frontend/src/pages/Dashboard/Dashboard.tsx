@@ -20,7 +20,7 @@ import Filter from "../../components/Filters/DashboardFilter";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
-const API_URL_TASK: string = "http://localhost:3333/task"; // TODO: Store this in .env file
+const API_URL_TASK: string = "http://localhost:3333/task"; 
 
 interface Task {
     id: string;
@@ -74,7 +74,7 @@ const Dashboard = () => {
               return decoded.exp < currentTime;
             } catch (error) {
               console.error("Failed to decode token", error);
-              return true; // Assume invalid token
+              return true;
             }
           };
 

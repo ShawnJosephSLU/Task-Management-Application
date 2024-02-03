@@ -69,7 +69,6 @@ const NewUserForm = () => {
                 },
             });
 
-            // Assuming the backend will return a successful status code upon successful sign up
             if (response.status === 200 || response.status === 201) {
                 console.log("Sign Up successful:", response.data);
                 // Redirect user to sign-in page after successful sign-up

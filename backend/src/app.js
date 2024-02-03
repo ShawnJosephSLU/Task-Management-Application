@@ -23,7 +23,7 @@ app.use(morgan("dev"));
 
 // root route
 app.get("/", (req, res) => {
-    res.send("Todo List Api");
+    res.send("Task Management Api");
 });
 
 // import and use user router
