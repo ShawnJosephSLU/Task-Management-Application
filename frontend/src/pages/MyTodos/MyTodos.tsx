@@ -14,7 +14,9 @@ import {
     Typography,
     TableSortLabel,
     Button,
+    Card,
 } from "@mui/material";
+
 import Header from "../../components/Header/Header";
 import { useNavigate } from "react-router-dom";
 import MyToDoListFilter from "../../components/Filters/MyTodoListFilter";
@@ -176,7 +178,9 @@ const MyCreatedTasks = () => {
         console.log(taskId);
 
         // Ensure the taskUrl is constructed with the correct taskId for each delete request
-        const taskUrl = `${API_URL_TASK}/${taskId}`; // Moved inside the function
+        const taskUrl = `${API_URL_TASK}/${taskId}`;
+
+        alert("Are you sure you want to delete this task ?")
 
         const token = localStorage.getItem("authToken");
         if (!token) {
@@ -209,8 +213,8 @@ const MyCreatedTasks = () => {
         }
 
         const priorityValue = (priorityLevel: string) => {
-            // map priority to numbers for sorting
-            switch (priorityLevel) {
+            
+            switch (priorityLevel) {// map priority to numbers for sorting
                 case "High":
                     return 3;
                 case "Medium":
@@ -263,7 +267,7 @@ const MyCreatedTasks = () => {
         <>
             <Header />
 
-            <div style={homeContentStyle}>
+            <Card style={homeContentStyle}>
                 <Toolbar style={topBarStyle}>
                     <Typography
                         variant="h5"
@@ -391,7 +395,7 @@ const MyCreatedTasks = () => {
                                             }
                                         >
                                             {" "}
-                                            Edit{" "}
+                                           <p style={{ color: 'black' }}>Edit</p> {" "}
                                         </Button>
                                     </TableCell>
                                     <TableCell>
@@ -401,7 +405,7 @@ const MyCreatedTasks = () => {
                                             }
                                         >
                                             {" "}
-                                            Delete{" "}
+                                            <p style={{ color: 'black' }}>Delete</p> {" "}
                                         </Button>
                                     </TableCell>
                                 </TableRow>
@@ -409,7 +413,7 @@ const MyCreatedTasks = () => {
                         </TableBody>
                     </Table>
                 </TableContainer>
-            </div>
+            </Card>
         </>
     );
 };

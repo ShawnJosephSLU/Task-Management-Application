@@ -13,6 +13,7 @@ import {
     Toolbar,
     Typography,
     TableSortLabel,
+    Card,
 } from "@mui/material";
 import Header from "../../components/Header/Header";
 import Filter from "../../components/Filters/DashboardFilter";
@@ -209,7 +210,7 @@ const Dashboard = () => {
         <>
             <Header />
 
-            <div style={homeContentStyle}>
+            <Card style={homeContentStyle}>
                 <Toolbar style={topBarStyle}>
                     <Typography
                         variant="h5"
@@ -337,7 +338,7 @@ const Dashboard = () => {
                         </TableBody>
                     </Table>
                 </TableContainer>
-            </div>
+            </Card>
         </>
     );
 };
