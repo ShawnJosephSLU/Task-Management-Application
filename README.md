@@ -21,7 +21,9 @@ This project is a full-stack web application for task management with user authe
    ```sh
    npm install
    ```
-3. Start the server:
+3. Add your .env file to the backend dir
+   
+4. Start the server:
    ```sh
    npm start
    ```
