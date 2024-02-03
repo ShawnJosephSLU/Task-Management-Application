@@ -1,6 +1,6 @@
-// check authenticated user 
+// check authenticated user
 
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 const userTokenBlacklist = [];
 
 module.exports = (req, res, next) => {
@@ -11,17 +11,20 @@ module.exports = (req, res, next) => {
         if (userTokenBlacklist.includes(token)) {
             console.log("Token blacklisted. Access denied.");
             return res.status(401).json({
-                error: "Authentication failed. Token is blacklisted."
+                error: "Authentication failed. Token is blacklisted.",
             });
         }
 
         const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
-        req.userData = { userId: decodedToken.userId, username: decodedToken.username };
+        req.userData = {
+            userId: decodedToken.userId,
+            username: decodedToken.username,
+        };
         next();
     } catch (error) {
         console.error("Authentication failed. Invalid token.", error);
         return res.status(401).json({
-            error: "Authentication failed. Invalid token."
+            error: "Authentication failed. Invalid token.",
         });
     }
 };
