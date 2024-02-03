@@ -22,7 +22,9 @@ This project is a full-stack web application for task management with user authe
    npm install
    ```
 3. Add your .env file to the backend dir
-   
+    ```sh
+   touch .env
+   ```
 4. Start the server:
    ```sh
    npm start
