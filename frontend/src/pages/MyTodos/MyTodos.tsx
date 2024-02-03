@@ -180,8 +180,6 @@ const MyCreatedTasks = () => {
         // Ensure the taskUrl is constructed with the correct taskId for each delete request
         const taskUrl = `${API_URL_TASK}/${taskId}`;
 
-        alert("Are you sure you want to delete this task ?")
-
         const token = localStorage.getItem("authToken");
         if (!token) {
             console.error("No token found in local storage.");
