@@ -11,7 +11,7 @@ function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route index element={<UserSignInForm />} />
+                <Route index element={<Dashboard />} />
                 <Route path="/signin" element={<UserSignInForm />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/signup" element={<NewUserForm />} />

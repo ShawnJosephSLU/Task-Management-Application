@@ -1,7 +1,7 @@
 // UserSignInForm
 
 //TODO: Handle Authentication when signing in
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
     Button,
@@ -22,11 +22,18 @@ import axios from "axios";
 const SIGNIN_ENDPOINT = "http://localhost:3333/user/signin"; // Backend sign in endpoint. TODO: save in a .env file
 
 const UserSignInForm = () => {
+    const navigate = useNavigate(); 
     const [credentials, setCredentials] = useState({ email: "", password: "" });
     const [showPassword, setShowPassword] = useState(false);
-    const navigate = useNavigate();
+    const [errorMessage, setErrorMessage] = useState("");
 
-    const [errorMessage, setErrorMessage] = useState(""); // this state holds the error message
+   
+    useEffect(() => {
+        const token = localStorage.getItem('authToken');
+        if (token) {
+            navigate('/dashboard');
+        }
+    }, [navigate]); 
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setCredentials({
