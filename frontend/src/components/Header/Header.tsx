@@ -2,6 +2,7 @@
 
 import { AppBar, Button, Toolbar, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Header = () => {
     const navigate = useNavigate();
@@ -18,11 +19,32 @@ const Header = () => {
         navigate('/create-task');
     };
 
-    const handleSignOut = () => { // handles the user sign out
-
-        localStorage.removeItem('authToken'); // deletes the auth token
-        navigate('/signin');
+    const handleSignOut = () => {
+        const SIGNOUT_ENDPOINT = "http://localhost:3333/user/signout";
+        const token = localStorage.getItem('authToken');
+    
+        try {
+            axios.post(SIGNOUT_ENDPOINT, {}, { // add the token to a blacklist 
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+            })
+            .then(response => {
+                // Handle successful sign out
+                console.log('Sign out successful', response.data);
+                localStorage.removeItem('authToken'); // Deletes the auth token upon successful sign out
+                navigate('/signin'); // Redirect the user to the sign-in page
+            })
+            .catch(error => {
+                // Handle errors if the request failed
+                console.error('Error during sign out', error.response);
+            });
+        } catch (error) {
+            // Handle errors that may occur outside the request, if any
+            console.error('Unexpected error', error);
+        }
     };
+    
 
     const displayName = localStorage.getItem('displayName')
 

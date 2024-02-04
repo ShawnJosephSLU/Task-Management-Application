@@ -2,6 +2,7 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("../../models/user.model");
+const userTokenBlacklist = [];
 
 const signInUser = async (req, res, next) => {
     // handles user SignIn
@@ -61,7 +62,24 @@ const signInUser = async (req, res, next) => {
 };
 
 const signOutUser = async (req, res, next) => {
-    //handles user signOut
+    const token = req.headers.authorization.split(" ")[1];
+
+    // Check if the token is already blacklisted
+    if (userTokenBlacklist.includes(token)) {
+        console.log("Token is already blacklisted. Ignoring duplicate logout.");
+        return res.status(200).json({
+            message: "Token is already blacklisted",
+        });
+    }
+
+    // Add the token to the blacklist
+    userTokenBlacklist.push(token);
+
+    console.log("Token added to blacklist:", token);
+
+    res.status(200).json({
+        message: "Logout successful",
+    });
 };
 
 module.exports = { signInUser, signOutUser };
