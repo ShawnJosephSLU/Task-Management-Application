@@ -393,7 +393,7 @@ const MyCreatedTasks = () => {
                                             }
                                         >
                                             {" "}
-                                           <p style={{ color: 'black' }}>Edit</p> {" "}
+                                           <h3 style={{ color: 'black' }}>Edit</h3> {" "}
                                         </Button>
                                     </TableCell>
                                     <TableCell>
@@ -403,7 +403,7 @@ const MyCreatedTasks = () => {
                                             }
                                         >
                                             {" "}
-                                            <p style={{ color: 'black' }}>Delete</p> {" "}
+                                            <h3 style={{ color: 'black' }}>Delete</h3> {" "}
                                         </Button>
                                     </TableCell>
                                 </TableRow>
