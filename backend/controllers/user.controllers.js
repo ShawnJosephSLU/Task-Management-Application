@@ -41,7 +41,7 @@ const getAllUserNames = async (req, res, next) => {
         const userDisplayNames = users.map((user) => {
             return {
                 id: user._id,
-                displayName: user.displayName,
+                displayName: `${user.displayName}@${user.username}`,
             };
         });
         res.status(200).json(userDisplayNames);
