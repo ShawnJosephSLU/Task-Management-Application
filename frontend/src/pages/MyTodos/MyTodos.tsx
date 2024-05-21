@@ -271,7 +271,7 @@ const MyCreatedTasks = () => {
                         variant="h5"
                         style={{ fontFamily: "monospace" }}
                     >
-                        MY TODO LIST
+                        MY TASKS
                     </Typography>
                     <MyToDoListFilter onApplyFilters={handleApplyFilters} />
                 </Toolbar>

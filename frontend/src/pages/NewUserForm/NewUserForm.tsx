@@ -102,7 +102,7 @@ const NewUserForm = () => {
                             textAlign="center"
                             gutterBottom
                         >
-                            TO DO LIST
+                            Task Manager
                         </Typography>
                         <Typography
                             variant="h6"
